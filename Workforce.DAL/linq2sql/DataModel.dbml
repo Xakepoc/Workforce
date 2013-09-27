@@ -1,0 +1,558 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Willy" Class="DataModelDataContext" BaseType="BaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQL2012;Initial Catalog=Willy;Integrated Security=True" SettingsObjectName="Workforce.DAL.Properties.Settings" SettingsPropertyName="WillyConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblAgeProgGrp" Member="tblAgeProgGrps">
+    <Type Name="tblAgeProgGrp">
+      <Column Name="YName" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="AgeGrp" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="EmplNo" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.vwEmplScen" Member="vwEmplScens">
+    <Type Name="vwEmplScen">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmplID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="RecDum" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Location" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BusinessDiv" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobGroupID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFuncID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PensionDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate2" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate3" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate4" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate5" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate2" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate3" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate4" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate5" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate2" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate3" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate4" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate5" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Position" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Qualification" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="WorkTime" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="PensDet" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CompValue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExpDoub" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LeadPot" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LeadPotN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CompValueJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ExpDoubJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Engage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EngageJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Handicap" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LabourTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobLevID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblBusinessDiv" Member="tblBusinessDivs">
+    <Type Name="tblBusinessDiv">
+      <Column Name="BusinessDivID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblCompany" Member="tblCompanies">
+    <Type Name="tblCompany">
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CompName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Branch" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblCountry" Member="tblCountries">
+    <Type Name="tblCountry">
+      <Column Name="CountryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblDataImp" Member="tblDataImps">
+    <Type Name="tblDataImp">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Relation1" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="RelID1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Relation2" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="RelID2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblEmployee" Member="tblEmployees">
+    <Type Name="tblEmployee">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmplID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="RecDum" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Location" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BusinessDiv" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobGroupID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFuncID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PensionDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate2" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate3" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate4" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PensionDate5" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate2" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate3" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate4" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate5" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate2" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate3" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate4" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate5" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Position" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Qualification" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="WorkTime" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="PensDet" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CompValue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExpDoub" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LeadPot" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LeadPotN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CompValueJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ExpDoubJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Engage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EngageJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Handicap" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LabourTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobLevID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblErrorMsg" Member="tblErrorMsgs">
+    <Type Name="tblErrorMsg">
+      <Column Name="ErrorID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFieldDescr" Member="tblFieldDescrs">
+    <Type Name="tblFieldDescr">
+      <Column Name="FieldDescrID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FieldID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FieldDescr" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFieldName" Member="tblFieldNames">
+    <Type Name="tblFieldName">
+      <Column Name="FieldID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FieldName" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFiftyDev" Member="tblFiftyDevs">
+    <Type Name="tblFiftyDev">
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="YName" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="FifDev" Type="System.Decimal" DbType="Decimal(18,1)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFluctTmp" Member="tblFluctTmps">
+    <Type Name="tblFluctTmp">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmplID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Location" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BusinessDiv" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobGroupID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFuncID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobLevID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EntryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TakeOver" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RecDum" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblImport" Member="tblImports">
+    <Type Name="tblImport">
+      <Column Name="EmplID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LocationID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BusinessDivision" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="BusinessDiv" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobGroup" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="JobGroupID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFamilie" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFunction" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="JobFuncID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PensionDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EntryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LeaveDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Position" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Qualification" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="WorkingTime" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="PensionDetails" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CompValue" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExpDoub" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LeadPot" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LeadPotN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CompValueJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ExpDoubJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Engage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EngageJ" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Handicap" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="HandicapID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LabourTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FullTimeYesNo" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ImpErr" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="JobLevel" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="JobLevID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GenderID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblIsRep01" Member="tblIsRep01s">
+    <Type Name="tblIsRep01">
+      <Column Name="YName" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="AgeGrp" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="EmplID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblIsRep02" Member="tblIsRep02s">
+    <Type Name="tblIsRep02">
+      <Column Name="[1]" Member="_1" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[2]" Member="_2" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[3]" Member="_3" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[4]" Member="_4" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[5]" Member="_5" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[6]" Member="_6" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[7]" Member="_7" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[8]" Member="_8" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[9]" Member="_9" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[10]" Member="_10" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[11]" Member="_11" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[12]" Member="_12" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[13]" Member="_13" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[14]" Member="_14" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[15]" Member="_15" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[16]" Member="_16" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[17]" Member="_17" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[18]" Member="_18" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[19]" Member="_19" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[20]" Member="_20" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[21]" Member="_21" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[22]" Member="_22" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="[23]" Member="_23" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblIsRepDescr" Member="tblIsRepDescrs">
+    <Type Name="tblIsRepDescr">
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CurYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmplNum" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="EmplNumPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PensLeave" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="EntryNum" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ExitNum" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ChangeMerge" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="MaleMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="MaleNumPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="FemaleMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="FemaleMaPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="HandicapMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="FullTimeMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PartTimeMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PartMaPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblIsReport" Member="tblIsReports">
+    <Type Name="tblIsReport">
+      <Column Name="CurYear" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmplNum" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="EmplNumPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PensLeave" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="EntryNum" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ExitNum" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ChangeMerge" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="MaleMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="MaleNumPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="FemaleMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="FemaleMaPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="HandicapMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="FullTimeMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PartTimeMA" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PartMaPCent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblJobFam" Member="tblJobFams">
+    <Type Name="tblJobFam">
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FamName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Qualification" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LabTurnORate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ReplaceChance" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PlanResign" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StaffReq" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobGrpID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblJobFamTmp" Member="tblJobFamTmps">
+    <Type Name="tblJobFamTmp">
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FamName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Take" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="JobGrpID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblJobFunc" Member="tblJobFuncs">
+    <Type Name="tblJobFunc">
+      <Column Name="JobFuncID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FuncName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Qualification" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LabTurnORate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ReplaceChance" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PlanResign" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StaffReq" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblJobFuncTmp" Member="tblJobFuncTmps">
+    <Type Name="tblJobFuncTmp">
+      <Column Name="JobFuncID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FuncName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Take" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblJobGroup" Member="tblJobGroups">
+    <Type Name="tblJobGroup">
+      <Column Name="JobGroupID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Qualification" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LabTurnORate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ReplaceChance" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PlanResign" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StaffReq" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblJobGrpTmp" Member="tblJobGrpTmps">
+    <Type Name="tblJobGrpTmp">
+      <Column Name="JobGroupID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="Take" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblJobLevel" Member="tblJobLevels">
+    <Type Name="tblJobLevel">
+      <Column Name="JobLevID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LevelName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblLangSetting" Member="tblLangSettings">
+    <Type Name="tblLangSetting">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblLanguage" Member="tblLanguages">
+    <Type Name="tblLanguage">
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LanguageName" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblLocation" Member="tblLocations">
+    <Type Name="tblLocation">
+      <Column Name="LocationID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CountryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProject" Member="tblProjects">
+    <Type Name="tblProject">
+      <Column Name="ProjectID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProjName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblQuery" Member="tblQueries">
+    <Type Name="tblQuery">
+      <Column Name="SInsert" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SWhere" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SGroup" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenAgeGrp" Member="tblScenAgeGrps">
+    <Type Name="tblScenAgeGrp">
+      <Column Name="ScenGrpID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AgeGrp" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="AgeMin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AgeMax" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenAges" Member="tblScenAges">
+    <Type Name="tblScenAge">
+      <Column Name="ScenAgeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ages" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenCntry" Member="tblScenCntries">
+    <Type Name="tblScenCntry">
+      <Column Name="ScenCntryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CountryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenDiv" Member="tblScenDivs">
+    <Type Name="tblScenDiv">
+      <Column Name="ScenBusID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BusDivID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenID" Member="tblScenIDs">
+    <Type Name="tblScenID">
+      <Column Name="ScenID" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenJobFam" Member="tblScenJobFams">
+    <Type Name="tblScenJobFam">
+      <Column Name="ScenJbFamID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenJobFunc" Member="tblScenJobFuncs">
+    <Type Name="tblScenJobFunc">
+      <Column Name="ScenJbFuncID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobFuncID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenJobGrp" Member="tblScenJobGrps">
+    <Type Name="tblScenJobGrp">
+      <Column Name="ScenJbGrpID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobGroupID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenJobLev" Member="tblScenJobLevs">
+    <Type Name="tblScenJobLev">
+      <Column Name="ScenJobLevID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobLevID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblScenLoc" Member="tblScenLocs">
+    <Type Name="tblScenLoc">
+      <Column Name="ScenLocID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ScenID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LocID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSingleRow" Member="tblSingleRows">
+    <Type Name="tblSingleRow">
+      <Column Name="ID" Type="System.String" DbType="NVarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSzenario" Member="tblSzenarios">
+    <Type Name="tblSzenario">
+      <Column Name="SzenarioID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SzenName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Target" Type="System.String" DbType="NVarChar(254)" CanBeNull="true" />
+      <Column Name="EvalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="GrowthRate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LabTurnORate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmployPA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AgeClSize" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AgeFirstClass" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PensAgeAve" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FluctRate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ViewDate1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ViewDate2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ViewDate3" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblTitleMsg" Member="tblTitleMsgs">
+    <Type Name="tblTitleMsg">
+      <Column Name="ErrorID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblYear" Member="tblYears">
+    <Type Name="tblYear">
+      <Column Name="YearID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.fnGetYears" Method="fnGetYears" IsComposable="true">
+    <Parameter Name="ScenraioId" Parameter="scenraioId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="fnGetYearsResult">
+      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.spAgeDistributionTotals" Method="spAgeDistributionTotals">
+    <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
+    <ElementType Name="spAgeDistributionTotalsResult">
+      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Count" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Total" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Percentage" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.spAgeDistribution" Method="spAgeDistribution">
+    <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
+    <ElementType Name="spAgeDistributionResult">
+      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OccupationArea" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="FamName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="FuncName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="LevelName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Count" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Total" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.spGetEmployees" Method="spGetEmployees">
+    <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
+    <ElementType Name="spGetEmployeesResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CriticalYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PensionYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="PensionDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="OccupationArea" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="FamName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="FuncName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="LevelName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>
