@@ -234,13 +234,20 @@
                 .group(group)
                 .valueAccessor(function(d){ return d.value.length;});
         };
+
+        var occupationChart = dc.pieChart("#age-chart-occupation");
+        var locationChart = dc.pieChart("#age-chart-location");
+        var groupChart = dc.pieChart("#age-chart-group");
+        var familyChart = dc.pieChart("#age-chart-family");
+        var functionChart = dc.pieChart("#age-chart-function");
+        var levelChart = dc.pieChart("#age-chart-level");
         
-        initPieChart(dc.pieChart("#age-chart-occupation"), occupationDimension, occupationGroup);
-        initPieChart(dc.pieChart("#age-chart-location"), locationDimension, locationGroup);
-        initPieChart(dc.pieChart("#age-chart-group"), groupDimension, jobGroupGroup);
-        initPieChart(dc.pieChart("#age-chart-family"), familyDimension, familyGroup);
-        initPieChart(dc.pieChart("#age-chart-function"), functionDimension, functionGroup);
-        initPieChart(dc.pieChart("#age-chart-level"), levelDimension, levelGroup);
+        initPieChart(occupationChart, occupationDimension, occupationGroup);
+        initPieChart(locationChart, locationDimension, locationGroup);
+        initPieChart(groupChart, groupDimension, jobGroupGroup);
+        initPieChart(familyChart, familyDimension, familyGroup);
+        initPieChart(functionChart, functionDimension, functionGroup);
+        initPieChart(levelChart, levelDimension, levelGroup);
 
         dc.renderAll();
         /*
