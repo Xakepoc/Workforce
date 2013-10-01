@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDao.cs" />
+    <Compile Include="LookupDao.cs" />
     <Compile Include="ReportDao.cs" />
     <Compile Include="linq2sql\BaseDataContext.cs" />
     <Compile Include="linq2sql\DataContext.cs" />

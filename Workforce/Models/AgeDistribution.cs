@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Workforce.DAL;
 using Workforce.DAL.linq2sql;
-using Newtonsoft.Json;
 
 namespace Workforce.Models
 {
@@ -29,11 +27,8 @@ namespace Workforce.Models
         public List<spAgeDistributionResult> Results;
         public List<spAgeDistributionTotalsResult> Totals;
         public List<EmployeeRow> Employees;
-
-        public string ResultsJson
-        {
-            get { return JsonConvert.SerializeObject(Results); }
-        }
+        public List<string> JobFamilies;
+        public List<string> JobFunctions;
 
         public AgeDistribution()
         {
@@ -56,6 +51,9 @@ namespace Workforce.Models
                                        Gender = emp.Gender
                                    })
                 .ToList();
+
+            JobFamilies = new LookupDao().GetJobFamilies();
+            JobFunctions = new LookupDao().GetJobFunctions();
         }
 
     }

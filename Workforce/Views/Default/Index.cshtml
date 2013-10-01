@@ -94,6 +94,8 @@
 
         var data = @Html.Raw(Json.Encode(Model.Results));
         var employeesSrc = @Html.Raw(Json.Encode(Model.Employees));
+        var jobFamilies = @Html.Raw(Json.Encode(Model.JobFamilies));
+        var jobFunctions = @Html.Raw(Json.Encode(Model.JobFunctions));
         //var employeesMap = mapo(employeesSrc, function(emp) { return [emp.CriticalYear, _.filter(employeesSrc, function(e) { return e.CriticalYear <= emp.CriticalYear && e.PensionYear > emp.CriticalYear; })]; });
         var employees = [];
         _.each(employeesSrc, function(emp) { // create set of employees for each year
@@ -155,12 +157,19 @@
         var functionRemove = function(p, v) { if (_.contains(p, v.Id)) p.splice(p.indexOf(v.Id), 1); return p; };
         var functionInitial = function() { return []; };
         var group = function(dimension) { return dimension.group().reduce(functionAdd, functionRemove, functionInitial); };
+        
+        var filteredAdd = function(fnFilter) { return function(p, v) { if (fnFilter(v) && !_.contains(p, v.Id)) p.push(v.Id); return p; }; };
+        var filteredRemove = function(fnFilter) { return function(p, v) { if (fnFilter(v) && !_.contains(p, v.Id)) p.splice(p.indexOf(v.Id), 1); return p; }; };
+        var filteredGroup = function(dimension, fnFilter) { return dimension.group().reduce(filteredAdd(fnFilter), filteredRemove(fnFilter), functionInitial); };
+        
+        var familyFilter = function(v) { return _.contains(jobFamilies, v.JobFamily); };
+        var functionFilter = function(v) { return _.contains(jobFunctions, v.JobFunction); };
 
         var occupationGroup = group(occupationDimension);
         var locationGroup = group(locationDimension);
         var jobGroupGroup = group(groupDimension);
-        var familyGroup = group(familyDimension);
-        var functionGroup = group(functionDimension);
+        var familyGroup = filteredGroup(familyDimension, familyFilter);
+        var functionGroup = filteredGroup(functionDimension, functionFilter);
         var levelGroup = group(levelDimension);
         
         var xScale = d3.scale.linear().domain([2010, 2025]);
@@ -232,7 +241,8 @@
                 .radius(80)
                 .dimension(dimension)
                 .group(group)
-                .valueAccessor(function(d){ return d.value.length;});
+                .valueAccessor(function(d) { return d.value.length; })
+                .colors(d3.scale.category20());
         };
 
         var occupationChart = dc.pieChart("#age-chart-occupation");
@@ -250,7 +260,7 @@
         initPieChart(levelChart, levelDimension, levelGroup);
 
         dc.renderAll();
-        /*
+        
         var id;
         $(window).resize(function(e) {
             clearTimeout(id);
@@ -261,8 +271,8 @@
             var w = container.width();
             $('#age-chart-distribution svg').attr('width', w);
             $('#age-chart-distribution2 svg').attr('width', w);
-            dc.renderAll();
-            dc.redrawAll();
-        }*/
+            /*dc.renderAll();
+            dc.redrawAll();*/
+        }
     </script>
 }
