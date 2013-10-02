@@ -9862,6 +9862,8 @@ namespace Workforce.DAL.linq2sql
 		
 		private int _ID;
 		
+		private System.Nullable<int> _BirthYear;
+		
 		private System.Nullable<int> _CriticalYear;
 		
 		private System.Nullable<int> _PensionYear;
@@ -9900,6 +9902,22 @@ namespace Workforce.DAL.linq2sql
 				if ((this._ID != value))
 				{
 					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BirthYear", DbType="Int")]
+		public System.Nullable<int> BirthYear
+		{
+			get
+			{
+				return this._BirthYear;
+			}
+			set
+			{
+				if ((this._BirthYear != value))
+				{
+					this._BirthYear = value;
 				}
 			}
 		}

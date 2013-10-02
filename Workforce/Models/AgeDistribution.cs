@@ -9,6 +9,7 @@ namespace Workforce.Models
     public class EmployeeRow
     {
         public int Id { get; set; }
+        public int BirthYear { get; set; }
         public int CriticalYear { get; set; }
         public int PensionYear { get; set; }
         public DateTime BirthDate { get; set; }
@@ -24,11 +25,11 @@ namespace Workforce.Models
 
     public class AgeDistribution
     {
-        public List<spAgeDistributionResult> Results;
-        public List<spAgeDistributionTotalsResult> Totals;
-        public List<EmployeeRow> Employees;
-        public List<string> JobFamilies;
-        public List<string> JobFunctions;
+        public List<spAgeDistributionResult> Results { get; private set; }
+        public List<spAgeDistributionTotalsResult> Totals { get; private set; }
+        public List<EmployeeRow> Employees { get; private set; }
+        public List<string> JobFamilies { get; private set; }
+        public List<string> JobFunctions { get; private set; }
 
         public AgeDistribution()
         {
@@ -38,6 +39,7 @@ namespace Workforce.Models
                 .Select(emp => new EmployeeRow
                                    {
                                        Id = emp.ID,
+                                       BirthYear = emp.BirthYear ?? 0,
                                        CriticalYear = emp.CriticalYear ?? 0,
                                        PensionYear = emp.PensionYear ?? 0,
                                        BirthDate = emp.BirthDate.Value,

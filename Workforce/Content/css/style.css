@@ -1,4 +1,7 @@
-﻿header {
+﻿.clear {
+    clear: both;
+}
+header {
     background-color: #333;
     color: #fff;
     height: 70px;
@@ -6,4 +9,17 @@
 }
 svg {
     /*width: 100%;*/
+}
+
+.chart-right {
+    text-align: center;
+}
+
+.age-selector { margin-bottom: 20px; }
+.age-selector h4 {
+    float: left;
+}
+.age-selector ul {
+    float: left;
+    margin-left: 15px;
 }

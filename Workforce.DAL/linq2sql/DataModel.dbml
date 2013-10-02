@@ -542,6 +542,7 @@
     <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
     <ElementType Name="spGetEmployeesResult">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BirthYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CriticalYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="PensionYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="BirthDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
