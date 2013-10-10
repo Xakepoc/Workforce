@@ -10,7 +10,9 @@ header {
 svg {
     /*width: 100%;*/
 }
-
+.dc-chart g.row text {
+    fill: #333;
+}
 .chart-right {
     text-align: center;
 }
