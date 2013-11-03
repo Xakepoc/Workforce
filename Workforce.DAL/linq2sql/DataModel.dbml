@@ -514,30 +514,6 @@
       <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.spAgeDistributionTotals" Method="spAgeDistributionTotals">
-    <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
-    <ElementType Name="spAgeDistributionTotalsResult">
-      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Count" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Total" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Percentage" Type="System.Double" DbType="Float" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.spAgeDistribution" Method="spAgeDistribution">
-    <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
-    <ElementType Name="spAgeDistributionResult">
-      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="OccupationArea" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
-      <Column Name="Location" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="GroupName" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
-      <Column Name="FamName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
-      <Column Name="FuncName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
-      <Column Name="LevelName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Count" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Total" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.spGetEmployees" Method="spGetEmployees">
     <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
     <ElementType Name="spGetEmployeesResult">

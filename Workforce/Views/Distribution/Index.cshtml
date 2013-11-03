@@ -1,0 +1,310 @@
+﻿@{
+    ViewBag.Title = "As-is Distribution";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <h2>Progression of Age Groups 50+ and 55+</h2>
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-xs-12 age-selector">
+            <ul class="nav nav-pills">
+                <li><a href="javascript:dc.filterAll();dc.renderAll();">Reset All Filters</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="col-xs-12 col-lg-8">
+            <div id="age-chart-totals" style="width:100%">
+                <strong>As-is Workforce Age Distribution</strong>
+                <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+                <a id="resetAgeTotals" class="reset" href="" style="display: none;">reset</a>
+                <div class="clearfix"></div>
+            </div>
+            <div id="age-chart-totalsGrouped" style="width:100%">
+                <strong>Aggregated by age groups</strong>
+                <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+                <a id="resetAgeTotalsGrouped" class="reset" href="" style="display: none;">reset</a>
+                <div class="clearfix"></div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
+                    <div id="age-chart-family">
+                        <strong>Job Family</strong>
+                        <a id="resetFamily" class="reset" href="" style="display: none;">reset</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
+                    <div id="age-chart-function">
+                        <strong>Job Function</strong>
+                        <a id="resetFunction" class="reset" href="" style="display: none;">reset</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row"></div>
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
+                    <div id="age-chart-occupation">
+                        <strong>Occupation Area</strong>
+                        <a id="resetOccupation" class="reset" href="" style="display: none;">reset</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
+                    <div id="age-chart-location">
+                        <strong>Location</strong>
+                        <a id="resetLocation" class="reset" href="" style="display: none;">reset</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
+                    <div id="age-chart-group">
+                        <strong>Job Group</strong>
+                        <a id="resetGroup" class="reset" href="" style="display: none;">reset</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
+                    <div id="age-chart-level">
+                        <strong>Job Level</strong>
+                        <a id="resetLevel" class="reset" href="" style="display: none;">reset</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $('.age-link').on('click', function(e) {
+            $('.age-selector .active').removeClass('active');
+            $(this).parent().addClass('active');
+            var age = $(this).text();
+            $('.current-age').text(age);
+            Draw();
+        });
+        
+        var mapo = _.compose(_.object, _.uniq, _.map);
+
+        var employeesSrc = @Html.Raw(Json.Encode(Model.Employees));
+        var jobFamilies = @Html.Raw(Json.Encode(Model.JobFamilies));
+        var jobFunctions = @Html.Raw(Json.Encode(Model.JobFunctions));
+        var ageGroups = @Html.Raw(Json.Encode(Model.AgeGroups));
+
+        var GetAgeGroup = function(age) { return _.indexOf(ageGroups, _.find(ageGroups, function(a) { return a.Min <= age && age <= a.Max; })); };
+        var GetAgeGroupTitle = function(groupId) { return ageGroups[groupId].Title; };
+        
+        function Draw() {
+            dc.filterAll();
+            var critAge = parseInt($('.age-selector .active a').text());
+            if (!critAge) critAge = 50;
+            
+            var containerMain = $('#age-chart-totals').parent();
+            var containerRight = $('#age-chart-family').parent();
+            var containerBottom = $('#age-chart-location').parent();
+            var wMain = containerMain.width();
+            var wRight = containerRight.width();
+            var wBottom = containerBottom.width();
+            
+            //var employees = employeesSrc;
+            var currentYear = 2013;
+            var employees = [];
+            _.each(employeesSrc, function(emp) { // create set of employees for each year
+                emp.Age = currentYear - emp.BirthYear;
+                emp.AgeGroupId = GetAgeGroup(emp.Age);
+                employees.push(emp);
+            });
+            
+            // Preparing data
+            var ndx = crossfilter(employees);
+
+            var ageDimension = ndx.dimension(function(emp) { return emp.Age; });
+            var ageGroup = function() {
+                return ageDimension.group().reduce(
+                    function(p, v) {
+                        p.Total++;
+                        p.Male += v.Gender == 'Male' ? 1 : 0;
+                        p.Female += v.Gender == 'Female' ? 1 : 0;
+                        return p;
+                    },
+                    function(p, v) {
+                        p.Total--;
+                        p.Male -= v.Gender == 'Male' ? 1 : 0;
+                        p.Female -= v.Gender == 'Female' ? 1 : 0;
+                        return p;
+                    },
+                    function() {
+                        return { Total: 0, Male: 0, Female: 0 };
+                    });
+            };
+
+            var ageGrDimension = ndx.dimension(function(emp) { return emp.AgeGroupId; });
+            var occupationDimension = ndx.dimension(function(emp) { return emp.OccupationArea; });
+            var locationDimension = ndx.dimension(function(emp) { return emp.Location; });
+            var groupDimension = ndx.dimension(function(emp) { return emp.JobGroup; });
+            var familyDimension = ndx.dimension(function(emp) { return emp.JobFamily; });
+            var functionDimension = ndx.dimension(function(emp) { return emp.JobFunction;  });
+            var levelDimension = ndx.dimension(function(emp) { return emp.JobLevel; });
+
+            var functionAdd = function(p, v) { if (!_.contains(p, v.Id)) p.push(v.Id); return p; };
+            var functionRemove = function(p, v) { if (_.contains(p, v.Id)) p.splice(p.indexOf(v.Id), 1); return p;};
+            var functionInitial = function() { return []; };
+            var group = function(dimension, fnFilter) { var gr = fnFilter ? dimension.group(fnFilter) : dimension.group(); return gr.reduce(functionAdd, functionRemove, functionInitial); };
+            
+            var ageGrGroup = ageGrDimension.group();
+            var occupationGroup = group(occupationDimension);
+            var locationGroup = group(locationDimension);
+            var jobGroupGroup = group(groupDimension);
+            var familyGroup = group(familyDimension, function(v) { if (_.contains(jobFamilies, v)) return v; });
+            var functionGroup = group(functionDimension, function(v) { if (_.contains(jobFunctions, v)) return v; });
+            var levelGroup = group(levelDimension);
+            
+            var xScaleAges = d3.scale.linear().domain([16, 70]);
+            var xScaleGroups = d3.scale.linear().domain([0, ageGroups.length-1]);
+            
+            var ticks = [];
+            for (var i = 16; i <= 70; i+=2) { ticks.push(i); }
+            
+            // Processing main charts
+
+            var ageChartTotals = dc.barChart("#age-chart-totals");
+            ageChartTotals
+                .width(wMain)
+                .height(400)
+                .margins({ top: 30, right: 50, bottom: 35, left: 30 })
+                .dimension(ageDimension)
+                .group(ageGroup(), "Male")
+                .valueAccessor(function(d) { return d.value.Male; })
+                .stack(ageGroup(), "Female", function(d) { return d.value.Female; })
+                .title(function(d) {
+                    return "Age " + d.x + "\n  Male: " + d.data.value.Male +
+                        "\n  Female: " + d.data.value.Female + 
+                        "\n  Total: " + d.data.value.Total;
+                })
+                .xAxisLabel('Age')
+                .yAxisLabel('Number of Employees')
+                //.elasticX(true)
+                .x(xScaleAges)
+                .xAxisPadding(1)
+                .elasticY(true)
+                .renderHorizontalGridLines(true)
+                .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
+                .filterPrinter(function (filters) {
+                    var fLeft = Math.ceil(filters[0][0]), fRight = Math.floor(filters[0][1]);
+                    return "Age " + fLeft + " - " + fRight;
+                })
+                //.brushOn(false)
+                .centerBar(true)
+                .gap(3)
+                .xAxis()
+                .tickValues(ticks)
+                .tickFormat(d3.format('.0f'));
+
+            var normalizeRange = function(arr, idx) {
+                idx = idx < 0 ? 0 : idx;
+                idx = idx > arr.length - 1 ? arr.length - 1 : idx;
+                return idx;
+            };
+            var ageChartTotalsGrouped = dc.barChart("#age-chart-totalsGrouped");
+            ageChartTotalsGrouped
+                .width(wMain)
+                .height(400)
+                .margins({ top: 30, right: 50, bottom: 35, left: 30 })
+                .dimension(ageGrDimension)
+                .group(ageGrGroup, "Total")
+                .valueAccessor(function(d) { return d.value; })
+                .title(function(d) {
+                    return "Age " + ageGroups[d.x].Title + "\n  Number of employees: " + d.data.value;
+                })
+                .xAxisLabel('Age Group')
+                .yAxisLabel('Number of Employees')
+                .elasticX(true)
+                .x(xScaleGroups)
+                .xAxisPadding(2)
+                .elasticY(true)
+                .renderHorizontalGridLines(true)
+                .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
+                .filterPrinter(function (filters) {
+                    var fLeft = normalizeRange(ageGroups, Math.ceil(filters[0][0]));
+                    var fRight = normalizeRange(ageGroups, Math.floor(filters[0][1]));
+                    return "Age " + ageGroups[fLeft].Min + " - " + ageGroups[fRight].Max;
+                })
+                //.brushOn(false)
+                .centerBar(true)
+                .gap(3)
+                .xAxis()
+                .tickFormat(function (d) {
+                    if (d < 0 || d >= ageGroups.length) return '';
+                    return ageGroups[d].Title;
+                });
+            
+            // Processing Other Charts
+
+            var initPieChart = function(chart, dimension, gr) {
+                return chart
+                    .width(wBottom)
+                    .height(180)
+                    .radius(80)
+                    .dimension(dimension)
+                    .group(gr)
+                    .valueAccessor(function(d) { return d.value.length; })
+                    .colors(d3.scale.category20());
+            };
+
+            var initRowChart = function(chart, dimension, gr) {
+                return chart
+                    .width(wRight)
+                    .height(410)
+                    .dimension(dimension)
+                    .group(gr)
+                    .valueAccessor(function(d) {
+                        return d.value.length;
+                    })
+                    .colors(d3.scale.category20());
+            };
+            
+            //var ageChartTotalsGrouped = dc.pieChart("#age-chart-totalsGrouped");
+            var occupationChart = dc.pieChart("#age-chart-occupation");
+            var locationChart = dc.pieChart("#age-chart-location");
+            var groupChart = dc.pieChart("#age-chart-group");
+            var familyChart = dc.rowChart("#age-chart-family");
+            var functionChart = dc.rowChart("#age-chart-function");
+            var levelChart = dc.pieChart("#age-chart-level");
+
+            //initPieChart(ageChartTotalsGrouped, ageGrDimension, ageGrGroup);
+            initPieChart(occupationChart, occupationDimension, occupationGroup);
+            initPieChart(locationChart, locationDimension, locationGroup);
+            initPieChart(groupChart, groupDimension, jobGroupGroup);
+            initRowChart(familyChart, familyDimension, familyGroup);
+            initRowChart(functionChart, functionDimension, functionGroup);
+            initPieChart(levelChart, levelDimension, levelGroup);
+            
+            var fnReset = function(chart) {
+                return function() { chart.filterAll(); dc.redrawAll(); return false; };
+            };
+            
+            $('#resetAgeTotals').on('click', fnReset(ageChartTotals));
+            $('#resetAgeTotalsGrouped').on('click', fnReset(ageChartTotalsGrouped));
+            $('#resetOccupation').on('click', fnReset(occupationChart));
+            $('#resetLocation').on('click', fnReset(locationChart));
+            $('#resetGroup').on('click', fnReset(groupChart));
+            $('#resetFamily').on('click', fnReset(familyChart));
+            $('#resetFunction').on('click', fnReset(functionChart));
+            $('#resetLevel').on('click', fnReset(levelChart));
+
+            dc.renderAll();
+        }
+
+        Draw();
+    </script>
+}

@@ -8,16 +8,6 @@ namespace Workforce.DAL
 {
     public class ReportDao : BaseDao
     {
-        public List<spAgeDistributionResult> GetAgeDistribution(int critYear)
-        {
-            return dc.spAgeDistribution(critYear).ToList();
-        }
-
-        public List<spAgeDistributionTotalsResult> GetAgeDistributionTotals(int critYear)
-        {
-            return dc.spAgeDistributionTotals(critYear).ToList();
-        }
-
         public List<spGetEmployeesResult> GetEmployees(int critAge)
         {
             return dc.spGetEmployees(critAge).ToList();

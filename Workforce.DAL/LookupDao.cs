@@ -23,5 +23,10 @@ namespace Workforce.DAL
                     where sc.ScenID == 1
                     select f.FuncName).ToList();
         }
+
+        public List<tblScenAgeGrp> GetAgeGroups()
+        {
+            return dc.tblScenAgeGrps.Where(arg => arg.ScenID == 1).ToList();
+        }
     }
 }

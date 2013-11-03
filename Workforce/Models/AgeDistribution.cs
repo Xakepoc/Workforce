@@ -23,18 +23,24 @@ namespace Workforce.Models
         public string Gender { get; set; }
     }
 
+    public class AgeGroupRow
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
+    }
+
     public class AgeDistribution
     {
-        public List<spAgeDistributionResult> Results { get; private set; }
-        public List<spAgeDistributionTotalsResult> Totals { get; private set; }
         public List<EmployeeRow> Employees { get; private set; }
         public List<string> JobFamilies { get; private set; }
         public List<string> JobFunctions { get; private set; }
 
+        public List<AgeGroupRow> AgeGroups { get; private set; }
+
         public AgeDistribution()
         {
-            Results = new ReportDao().GetAgeDistribution(50);
-            Totals = new ReportDao().GetAgeDistributionTotals(50);
             Employees = new ReportDao().GetEmployees(50)
                 .Select(emp => new EmployeeRow
                                    {
@@ -56,6 +62,16 @@ namespace Workforce.Models
 
             JobFamilies = new LookupDao().GetJobFamilies();
             JobFunctions = new LookupDao().GetJobFunctions();
+
+            AgeGroups = new LookupDao().GetAgeGroups()
+                .Select(gr => new AgeGroupRow
+                                  {
+                                      Id = gr.ScenGrpID,
+                                      Title = gr.AgeGrp,
+                                      Min = gr.AgeMin ?? 0,
+                                      Max = gr.AgeMax ?? 0
+                                  })
+                .ToList();
         }
 
     }

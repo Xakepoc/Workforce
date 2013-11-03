@@ -7,6 +7,19 @@ header {
     height: 70px;
     padding: 3px 3px 3px 50px;
 }
+header a {
+    color: #ccc;
+}
+header a:hover, header a:focus {
+    color: #fff;
+}
+header h3, header .nav {
+    margin-top: 10px;
+    color: #ff7f0e;
+}
+header .nav > li > a:hover, header .nav > li > a:focus {
+    background-color: #333;
+}
 svg {
     /*width: 100%;*/
 }

@@ -1,7 +1,7 @@
 ﻿@using Workforce.Models
 @model AgeDistribution
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Progression";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -104,7 +104,6 @@
 
         var mapo = _.compose(_.object, _.uniq, _.map);
 
-        var data = @Html.Raw(Json.Encode(Model.Results));
         var employeesSrc = @Html.Raw(Json.Encode(Model.Employees));
         var jobFamilies = @Html.Raw(Json.Encode(Model.JobFamilies));
         var jobFunctions = @Html.Raw(Json.Encode(Model.JobFunctions));

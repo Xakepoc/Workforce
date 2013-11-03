@@ -7,10 +7,8 @@ using Workforce.Models;
 
 namespace Workforce.Controllers
 {
-    public class DefaultController : Controller
+    public class DistributionController : Controller
     {
-        //
-        // GET: /Default/
 
         public ActionResult Index()
         {
@@ -18,5 +16,10 @@ namespace Workforce.Controllers
             return View(model);
         }
 
+        public ActionResult Progression()
+        {
+            var model = new AgeDistribution();
+            return View(model);
+        }
     }
 }
