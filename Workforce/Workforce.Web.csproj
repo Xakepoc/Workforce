@@ -195,6 +195,7 @@
     <Content Include="Views\Errors\PageNotFound.cshtml" />
     <Content Include="Views\Distribution\Progression.cshtml" />
     <Content Include="Views\Distribution\Index.cshtml" />
+    <Content Include="Views\Distribution\AgeDevelopment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
