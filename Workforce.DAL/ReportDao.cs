@@ -8,9 +8,9 @@ namespace Workforce.DAL
 {
     public class ReportDao : BaseDao
     {
-        public List<spGetEmployeesResult> GetEmployees(int critAge)
+        public List<spGetEmployeesResult> GetEmployees()
         {
-            return dc.spGetEmployees(critAge).ToList();
+            return dc.spGetEmployees().ToList();
         }
     }
 }

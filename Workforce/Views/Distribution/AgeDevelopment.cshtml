@@ -259,7 +259,7 @@
             ageChartForecast
                 .width(wMain)
                 .height(400)
-	            //.transitionDuration(200)
+	            .transitionDuration(200)
                 .margins({ top: 30, right: marginRight, bottom: 35, left: marginLeft })
                 .dimension(ageGrDimension)
                 .group(ageGrGroup(), "Total")
@@ -274,7 +274,7 @@
                 .xAxisPadding(2)
                 .elasticY(true)
                 .renderHorizontalGridLines(true)
-                //.brushOn(false)
+                .brushOn(false)
                 .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
 	            .renderlet(function (chart) {
 	                chart.selectAll("g._1").attr("transform", "translate(" + translate*1 + ", 0)");
@@ -291,7 +291,6 @@
                     dc.barChart(ageChartForecast).gap(gap).group(ageGrGroup(), "2025").title(function(d) { return "Year 2025 \n  Number of employees: " + d.data.value.Years[2025]; }).colors(['#2ca02c']).valueAccessor(function(d) { return d.value.Years[2025]; }).on("postRender", function(chart) { chart.margins.left = 250;})
                 ])
                 .xAxis()
-                .tickValues([0,1,2,3,4,5,6,7])
                 .tickFormat(function (d) {
                     if (d < 0 || d >= ageGroups.length) return '';
                     return ageGroups[d].Title;
@@ -322,7 +321,6 @@
                     .colors(d3.scale.category20());
             };
             
-            //var ageChartForecast = dc.pieChart("#age-chart-forecast");
             var occupationChart = dc.pieChart("#age-chart-occupation");
             var locationChart = dc.pieChart("#age-chart-location");
             var groupChart = dc.pieChart("#age-chart-group");
@@ -330,7 +328,6 @@
             var functionChart = dc.rowChart("#age-chart-function");
             var levelChart = dc.pieChart("#age-chart-level");
 
-            //initPieChart(ageChartForecast, ageGrDimension, ageGrGroup);
             initPieChart(occupationChart, occupationDimension, occupationGroup);
             initPieChart(locationChart, locationDimension, locationGroup);
             initPieChart(groupChart, groupDimension, jobGroupGroup);

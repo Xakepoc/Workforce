@@ -514,16 +514,10 @@ namespace Workforce.DAL.linq2sql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.fnGetYears", IsComposable=true)]
-		public IQueryable<fnGetYearsResult> fnGetYears([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ScenraioId", DbType="Int")] System.Nullable<int> scenraioId)
-		{
-			return this.CreateMethodCallQuery<fnGetYearsResult>(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), scenraioId);
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.spGetEmployees")]
-		public ISingleResult<spGetEmployeesResult> spGetEmployees([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> critAge)
+		public ISingleResult<spGetEmployeesResult> spGetEmployees()
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), critAge);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<spGetEmployeesResult>)(result.ReturnValue));
 		}
 	}
@@ -9549,40 +9543,12 @@ namespace Workforce.DAL.linq2sql
 		}
 	}
 	
-	public partial class fnGetYearsResult
-	{
-		
-		private System.Nullable<int> _Year;
-		
-		public fnGetYearsResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int")]
-		public System.Nullable<int> Year
-		{
-			get
-			{
-				return this._Year;
-			}
-			set
-			{
-				if ((this._Year != value))
-				{
-					this._Year = value;
-				}
-			}
-		}
-	}
-	
 	public partial class spGetEmployeesResult
 	{
 		
 		private int _ID;
 		
 		private System.Nullable<int> _BirthYear;
-		
-		private System.Nullable<int> _CriticalYear;
 		
 		private System.Nullable<int> _PensionYear;
 		
@@ -9636,22 +9602,6 @@ namespace Workforce.DAL.linq2sql
 				if ((this._BirthYear != value))
 				{
 					this._BirthYear = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CriticalYear", DbType="Int")]
-		public System.Nullable<int> CriticalYear
-		{
-			get
-			{
-				return this._CriticalYear;
-			}
-			set
-			{
-				if ((this._CriticalYear != value))
-				{
-					this._CriticalYear = value;
 				}
 			}
 		}

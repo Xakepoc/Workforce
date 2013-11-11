@@ -508,18 +508,10 @@
       <Column Name="Name" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
     </Type>
   </Table>
-  <Function Name="dbo.fnGetYears" Method="fnGetYears" IsComposable="true">
-    <Parameter Name="ScenraioId" Parameter="scenraioId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="fnGetYearsResult">
-      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.spGetEmployees" Method="spGetEmployees">
-    <Parameter Name="critAge" Type="System.Int32" DbType="Int" />
     <ElementType Name="spGetEmployeesResult">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="BirthYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="CriticalYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="PensionYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="BirthDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="PensionDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />

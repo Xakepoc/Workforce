@@ -23,5 +23,11 @@ namespace Workforce.Controllers
             var model = new AgeDistribution();
             return View(model);
         }
+
+        public ActionResult Retirements()
+        {
+            var model = new AgeDistribution();
+            return View(model);
+        }
     }
 }

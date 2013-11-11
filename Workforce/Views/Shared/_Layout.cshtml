@@ -19,15 +19,10 @@
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="/">As-is Distribution</a>
-                </li>
-                <li>
-                    <a href="/Distribution/AgeDevelopment">Workforce Age Development</a>
-                </li>
-                <li>
-                    <a href="/Distribution/Progression">Progression of Age Groups</a>
-                </li>
+                <li>@Html.ActionLink("As-is Distribution", "Index")</li>
+                <li>@Html.ActionLink("Workforce Age Development", "AgeDevelopment")</li>
+                <li>@Html.ActionLink("Progression of Age Groups", "Progression")</li>
+                <li>@Html.ActionLink("Retirements", "Retirements")</li>
             </ul>
         </nav>
     </header>
@@ -39,6 +34,6 @@
 
     @Scripts.Render("~/js/all")
     @RenderSection("scripts", required: false)
-    
+
 </body>
 </html>

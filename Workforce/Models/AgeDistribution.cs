@@ -41,12 +41,11 @@ namespace Workforce.Models
 
         public AgeDistribution()
         {
-            Employees = new ReportDao().GetEmployees(50)
+            Employees = new ReportDao().GetEmployees()
                 .Select(emp => new EmployeeRow
                                    {
                                        Id = emp.ID,
                                        BirthYear = emp.BirthYear ?? 0,
-                                       CriticalYear = emp.CriticalYear ?? 0,
                                        PensionYear = emp.PensionYear ?? 0,
                                        BirthDate = emp.BirthDate.Value,
                                        PensionDate = emp.PensionDate.Value,

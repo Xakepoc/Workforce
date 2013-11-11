@@ -1,7 +1,7 @@
 ﻿@using Workforce.Models
 @model AgeDistribution
 @{
-    ViewBag.Title = "Progression";
+    ViewBag.Title = "Retirements";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,27 +9,20 @@
     <h2>Progression of Age Groups 50+ and 55+</h2>
     <div class="row" style="margin-top: 30px;">
         <div class="col-xs-12 age-selector">
-            <h4>Select age:</h4>
             <ul class="nav nav-pills">
-                <li class="active"><a class="age-link" href="#">50</a></li>
-                <li><a class="age-link" href="#">51</a></li>
-                <li><a class="age-link" href="#">52</a></li>
-                <li><a class="age-link" href="#">53</a></li>
-                <li><a class="age-link" href="#">54</a></li>
-                <li><a class="age-link" href="#">55</a></li>
                 <li><a href="javascript:dc.filterAll();dc.renderAll();">Reset All Filters</a></li>
             </ul>
             <div class="clear"></div>
         </div>
         <div class="col-xs-12 col-lg-8">
-            <div id="age-chart-distribution" style="width:100%">
-                <strong>Progression of workforce age groups <span class="current-age">50</span>+</strong>
+            <div id="age-chart-percent" style="width:100%">
+                <strong>Progression of retirements in percent</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetAgePercent" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
             </div>
-            <div id="age-chart-distribution2" style="width:100%; margin-top: 15px;">
-                <strong>Progression of workforce age groups <span class="current-age">50</span>+</strong>
+            <div id="age-chart-number" style="width:100%; margin-top: 15px;">
+                <strong>Progression of retirements absolute</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetAgeNumber" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
@@ -113,7 +106,7 @@
             var critAge = parseInt($('.age-selector .active a').text());
             if (!critAge) critAge = 50;
             
-            var containerMain = $('#age-chart-distribution').parent();
+            var containerMain = $('#age-chart-percent').parent();
             var containerRight = $('#age-chart-family').parent();
             var containerBottom = $('#age-chart-location').parent();
             var wMain = containerMain.width();
@@ -121,15 +114,11 @@
             var wBottom = containerBottom.width();
             
             var employees = [];
-            _.each(employeesSrc, function(emp) { // create set of employees for each year
-                for (var i = emp.BirthYear + critAge; i < emp.PensionYear; i++) {
-                    var e = _.clone(emp);
-                    e.Year = i;
-                    employees.push(e);
-                }
+            _.each(employeesSrc, function(emp) {
+                emp.Year = emp.PensionYear;
+                employees.push(emp);
             });
 
-            //var locations = mapo(data, function(item) { return [item.Location, 0]; });
 
             // Preparing data
             var ndx = crossfilter(employees);
@@ -139,7 +128,7 @@
                 return yearDimension.group().reduce(
                     function(p, v) {
                         if (p.All == 0) {
-                            p.All = _.unique(_.map(_.filter(employees, function(emp) { return emp.PensionYear > v.Year; }), function(emp) { return emp.Id; })).length;
+                            p.All = _.unique(_.map(_.filter(employees, function(emp) { return emp.PensionYear >= v.Year; }), function(emp) { return emp.Id; })).length;
                         }
                         p.Total++;
                         p.Male += v.Gender == 'Male' ? 1 : 0;
@@ -148,7 +137,7 @@
                     },
                     function(p, v) {
                         if (p.All == 0) {
-                            p.All = _.filter(employees, function(emp) { return emp.PensionYear > v.Year; }).length;
+                            p.All = _.filter(employees, function(emp) { return emp.PensionYear >= v.Year; }).length;
                         }
                         p.Total--;
                         p.Male -= v.Gender == 'Male' ? 1 : 0;
@@ -181,10 +170,9 @@
 
             // Processing main charts
 
-            var ageChartPercent = dc.barChart("#age-chart-distribution");
-            var ageChartNumber = dc.compositeChart("#age-chart-distribution2");
-            //ageChartNumber.resetSvg();
-            //ageChartPercent.resetSvg();
+            var ageChartPercent = dc.barChart("#age-chart-percent");
+            var ageChartNumber = dc.compositeChart("#age-chart-number");
+            var xScale = d3.scale.linear().domain([2011, 2025]);
 
             ageChartPercent
                 .width(wMain)
@@ -195,15 +183,16 @@
                 .valueAccessor(function(d) { return d.value.Male / d.value.All * 100; })
                 .stack(workforceGroup(), "Female", function(d) { return d.value.Female / d.value.All * 100; })
                 .title(function(d) {
-                    return "Year " + d.x + "\n  Male: " + d.data.value.Male + " (" + (d.data.value.Male / d.data.value.All * 100).toPrecision(3) + "%)" +
-                        "\n  Female: " + d.data.value.Female + " (" + (d.data.value.Female / d.data.value.All * 100).toPrecision(3) + "%)" +
-                        "\n  Total: " + d.data.value.Total + "(" + (d.data.value.Total / d.data.value.All * 100).toPrecision(3) + "%)";
+                    return "Year " + d.x + "\n  Male: " + d.data.value.Male + " (" + (d.data.value.Male / d.data.value.All * 100).toPrecision(2) + "%)" +
+                        "\n  Female: " + d.data.value.Female + " (" + (d.data.value.Female / d.data.value.All * 100).toPrecision(2) + "%)" +
+                        "\n  Total: " + d.data.value.Total + "(" + (d.data.value.Total / d.data.value.All * 100).toPrecision(2) + "%)" + 
+                        "\n  All employees: " + d.data.value.All;
                 })
                 .xAxisLabel('Year')
                 .yAxisLabel('%')
-                .elasticX(true)
-                .x(d3.scale.linear())
-                .xAxisPadding(1)
+                //.elasticX(true)
+                .x(xScale)
+                .xAxisPadding(2)
                 .elasticY(true)
                 .renderHorizontalGridLines(true)
                 .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
@@ -240,13 +229,17 @@
                 ])
                 .xAxisLabel('Year')
                 .yAxisLabel('Number of Employees')
-                .elasticX(true)
-                .x(d3.scale.linear())
+                //.elasticX(true)
+                .x(xScale)
                 .xAxisPadding(1)
                 .elasticY(true)
                 .renderHorizontalGridLines(true)
-                .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
                 .brushOn(false)
+                .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
+                .filterPrinter(function (filters) {
+                    var fLeft = Math.ceil(filters[0][0]), fRight = Math.floor(filters[0][1]);
+                    return "Year " + fLeft + " - " + fRight;
+                })
                 .xAxis()
                 .tickFormat(d3.format('.0f'));
 
