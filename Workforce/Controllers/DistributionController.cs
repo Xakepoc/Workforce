@@ -29,5 +29,11 @@ namespace Workforce.Controllers
             var model = new AgeDistribution();
             return View(model);
         }
+
+        public ActionResult SkillsStatus()
+        {
+            var model = new SkillDistribution();
+            return View(model);
+        }
     }
 }

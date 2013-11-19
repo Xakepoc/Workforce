@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDao.cs" />
+    <Compile Include="EmployeeSkill.cs" />
     <Compile Include="LookupDao.cs" />
     <Compile Include="ReportDao.cs" />
     <Compile Include="linq2sql\BaseDataContext.cs" />
@@ -61,6 +62,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Skill.cs" />
+    <Compile Include="SkillSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

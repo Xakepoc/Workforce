@@ -132,6 +132,7 @@
       <Column Name="Handicap" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="LabourTime" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="JobLevID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblEmployee_tblEmployeeSkill" Member="tblEmployeeSkills" ThisKey="ID" OtherKey="EmployeeId" Type="tblEmployeeSkill" />
     </Type>
   </Table>
   <Table Name="dbo.tblErrorMsg" Member="tblErrorMsgs">
@@ -508,6 +509,42 @@
       <Column Name="Name" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.tblSkill" Member="tblSkills">
+    <Type Name="tblSkill">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="IsCritical" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsNeededInFuture" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PlanningRating" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblSkill_tblSkillSetSkill" Member="tblSkillSetSkills" ThisKey="Id" OtherKey="SkillId" Type="tblSkillSetSkill" />
+      <Association Name="tblSkill_tblEmployeeSkill" Member="tblEmployeeSkills" ThisKey="Id" OtherKey="SkillId" Type="tblEmployeeSkill" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSkillSetSkill" Member="tblSkillSetSkills">
+    <Type Name="tblSkillSetSkill">
+      <Column Name="SkillSetId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SkillId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="tblSkill_tblSkillSetSkill" Member="tblSkill" ThisKey="SkillId" OtherKey="Id" Type="tblSkill" IsForeignKey="true" />
+      <Association Name="tblSkillSet_tblSkillSetSkill" Member="tblSkillSet" ThisKey="SkillSetId" OtherKey="Id" Type="tblSkillSet" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSkillSet" Member="tblSkillSets">
+    <Type Name="tblSkillSet">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Association Name="tblSkillSet_tblSkillSetSkill" Member="tblSkillSetSkills" ThisKey="Id" OtherKey="SkillSetId" Type="tblSkillSetSkill" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblEmployeeSkill" Member="tblEmployeeSkills">
+    <Type Name="tblEmployeeSkill">
+      <Column Name="EmployeeId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SkillId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Rating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DevelopmentOpportunity" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="tblEmployee_tblEmployeeSkill" Member="tblEmployee" ThisKey="EmployeeId" OtherKey="ID" Type="tblEmployee" IsForeignKey="true" />
+      <Association Name="tblSkill_tblEmployeeSkill" Member="tblSkill" ThisKey="SkillId" OtherKey="Id" Type="tblSkill" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Function Name="dbo.spGetEmployees" Method="spGetEmployees">
     <ElementType Name="spGetEmployeesResult">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -515,6 +552,26 @@
       <Column Name="PensionYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="BirthDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="PensionDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="OccupationArea" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="FamName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="FuncName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="LevelName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(6) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.spGetEmployeeSkills" Method="spGetEmployeeSkills">
+    <ElementType Name="spGetEmployeeSkillsResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SkillId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Skill" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="IsCritical" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsNeededInFuture" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PlanningRating" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SkillSet" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Rating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DevelopmentOpportunity" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="OccupationArea" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
       <Column Name="Location" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="GroupName" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />

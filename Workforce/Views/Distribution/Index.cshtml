@@ -14,13 +14,13 @@
             <div class="clear"></div>
         </div>
         <div class="col-xs-12 col-lg-8">
-            <div id="age-chart-totals" style="width:100%">
+            <div id="chart-totals" style="width:100%">
                 <strong>Age Structure</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetAgeTotals" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
             </div>
-            <div id="age-chart-totalsGrouped" style="width:100%">
+            <div id="chart-totalsGrouped" style="width:100%">
                 <strong>Aggregated by age groups</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetAgeTotalsGrouped" class="reset" href="" style="display: none;">reset</a>
@@ -31,14 +31,14 @@
         <div class="col-xs-12 col-lg-4">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
-                    <div id="age-chart-family">
+                    <div id="chart-family">
                         <strong>Job Family</strong>
                         <a id="resetFamily" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
-                    <div id="age-chart-function">
+                    <div id="chart-function">
                         <strong>Job Function</strong>
                         <a id="resetFunction" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
@@ -50,28 +50,28 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-occupation">
+                    <div id="chart-occupation">
                         <strong>Occupation Area</strong>
                         <a id="resetOccupation" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-location">
+                    <div id="chart-location">
                         <strong>Location</strong>
                         <a id="resetLocation" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-group">
+                    <div id="chart-group">
                         <strong>Job Group</strong>
                         <a id="resetGroup" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-level">
+                    <div id="chart-level">
                         <strong>Job Level</strong>
                         <a id="resetLevel" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
@@ -102,14 +102,13 @@
         var ageGroups = @Html.Raw(Json.Encode(Model.AgeGroups));
 
         var GetAgeGroup = function(age) { return _.indexOf(ageGroups, _.find(ageGroups, function(a) { return a.Min <= age && age <= a.Max; })); };
-        var GetAgeGroupTitle = function(groupId) { return ageGroups[groupId].Title; };
         
         function Draw() {
             dc.filterAll();
             
-            var containerMain = $('#age-chart-totals').parent();
-            var containerRight = $('#age-chart-family').parent();
-            var containerBottom = $('#age-chart-location').parent();
+            var containerMain = $('#chart-totals').parent();
+            var containerRight = $('#chart-family').parent();
+            var containerBottom = $('#chart-location').parent();
             var wMain = containerMain.width();
             var wRight = containerRight.width();
             var wBottom = containerBottom.width();
@@ -170,13 +169,12 @@
             
             var xScaleAges = d3.scale.linear().domain([16, 70]);
             var xScaleGroups = d3.scale.linear().domain([0, ageGroups.length-1]);
-            
-            var ticks = [];
-            for (var i = 16; i <= 70; i+=2) { ticks.push(i); }
+
+            var ticks = _.range(16, 72, 2);
             
             // Processing main charts
 
-            var ageChartTotals = dc.barChart("#age-chart-totals");
+            var ageChartTotals = dc.barChart("#chart-totals");
             ageChartTotals
                 .width(wMain)
                 .height(400)
@@ -208,13 +206,19 @@
                 .xAxis()
                 .tickValues(ticks)
                 .tickFormat(d3.format('.0f'));
-
+            
+            // normalize range values for filter printer
             var normalizeRange = function(arr, idx) {
                 idx = idx < 0 ? 0 : idx;
                 idx = idx > arr.length - 1 ? arr.length - 1 : idx;
                 return idx;
             };
-            var ageChartTotalsGrouped = dc.barChart("#age-chart-totalsGrouped");
+            
+            // calculate gap
+            var marginRight = 50, marginLeft = 30;
+            var w = (wMain - marginLeft - marginRight) / ageGroups.length;
+            var gap = w / 3;
+            var ageChartTotalsGrouped = dc.barChart("#chart-totalsGrouped");
             ageChartTotalsGrouped
                 .width(wMain)
                 .height(400)
@@ -240,7 +244,7 @@
                 })
                 //.brushOn(false)
                 .centerBar(true)
-                .gap(3)
+                .gap(gap)
                 .xAxis()
                 .tickFormat(function (d) {
                     if (d < 0 || d >= ageGroups.length) return '';
@@ -272,13 +276,13 @@
                     .colors(d3.scale.category20());
             };
             
-            //var ageChartTotalsGrouped = dc.pieChart("#age-chart-totalsGrouped");
-            var occupationChart = dc.pieChart("#age-chart-occupation");
-            var locationChart = dc.pieChart("#age-chart-location");
-            var groupChart = dc.pieChart("#age-chart-group");
-            var familyChart = dc.rowChart("#age-chart-family");
-            var functionChart = dc.rowChart("#age-chart-function");
-            var levelChart = dc.pieChart("#age-chart-level");
+            //var ageChartTotalsGrouped = dc.pieChart("#chart-totalsGrouped");
+            var occupationChart = dc.pieChart("#chart-occupation");
+            var locationChart = dc.pieChart("#chart-location");
+            var groupChart = dc.pieChart("#chart-group");
+            var familyChart = dc.rowChart("#chart-family");
+            var functionChart = dc.rowChart("#chart-function");
+            var levelChart = dc.pieChart("#chart-level");
 
             //initPieChart(ageChartTotalsGrouped, ageGrDimension, ageGrGroup);
             initPieChart(occupationChart, occupationDimension, occupationGroup);

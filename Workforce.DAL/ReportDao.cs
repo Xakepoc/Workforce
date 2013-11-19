@@ -12,5 +12,10 @@ namespace Workforce.DAL
         {
             return dc.spGetEmployees().ToList();
         }
+
+        public List<spGetEmployeeSkillsResult> GetEmployeeSkills()
+        {
+            return dc.spGetEmployeeSkills().ToList();
+        }
     }
 }

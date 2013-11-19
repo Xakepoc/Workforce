@@ -6,7 +6,7 @@
 }
 
 <div class="container">
-    <h2>Progression of Age Groups 50+ and 55+</h2>
+    <h2>Retirements</h2>
     <div class="row" style="margin-top: 30px;">
         <div class="col-xs-12 age-selector">
             <ul class="nav nav-pills">
@@ -32,14 +32,14 @@
         <div class="col-xs-12 col-lg-4">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
-                    <div id="age-chart-family">
+                    <div id="chart-family">
                         <strong>Job Family</strong>
                         <a id="resetFamily" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
-                    <div id="age-chart-function">
+                    <div id="chart-function">
                         <strong>Job Function</strong>
                         <a id="resetFunction" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
@@ -51,28 +51,28 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-occupation">
+                    <div id="chart-occupation">
                         <strong>Occupation Area</strong>
                         <a id="resetOccupation" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-location">
+                    <div id="chart-location">
                         <strong>Location</strong>
                         <a id="resetLocation" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-group">
+                    <div id="chart-group">
                         <strong>Job Group</strong>
                         <a id="resetGroup" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
-                    <div id="age-chart-level">
+                    <div id="chart-level">
                         <strong>Job Level</strong>
                         <a id="resetLevel" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
@@ -107,8 +107,8 @@
             if (!critAge) critAge = 50;
             
             var containerMain = $('#age-chart-percent').parent();
-            var containerRight = $('#age-chart-family').parent();
-            var containerBottom = $('#age-chart-location').parent();
+            var containerRight = $('#chart-family').parent();
+            var containerBottom = $('#chart-location').parent();
             var wMain = containerMain.width();
             var wRight = containerRight.width();
             var wBottom = containerBottom.width();
@@ -268,12 +268,12 @@
                     .colors(d3.scale.category20());
             };
 
-            var occupationChart = dc.pieChart("#age-chart-occupation");
-            var locationChart = dc.pieChart("#age-chart-location");
-            var groupChart = dc.pieChart("#age-chart-group");
-            var familyChart = dc.rowChart("#age-chart-family");
-            var functionChart = dc.rowChart("#age-chart-function");
-            var levelChart = dc.pieChart("#age-chart-level");
+            var occupationChart = dc.pieChart("#chart-occupation");
+            var locationChart = dc.pieChart("#chart-location");
+            var groupChart = dc.pieChart("#chart-group");
+            var familyChart = dc.rowChart("#chart-family");
+            var functionChart = dc.rowChart("#chart-function");
+            var levelChart = dc.pieChart("#chart-level");
 
             initPieChart(occupationChart, occupationDimension, occupationGroup);
             initPieChart(locationChart, locationDimension, locationGroup);

@@ -134,6 +134,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AgeDistribution.cs" />
+    <Compile Include="Models\SkillsDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +198,7 @@
     <Content Include="Views\Distribution\Index.cshtml" />
     <Content Include="Views\Distribution\AgeDevelopment.cshtml" />
     <Content Include="Views\Distribution\Retirements.cshtml" />
+    <Content Include="Views\Distribution\SkillsStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
