@@ -19,11 +19,33 @@
         </div>
         <br />
         <div class="col-xs-12 col-lg-8">
+            <br />
             <div id="chart-fulfillment" class="chartMain" style="width:100%">
-                <strong>Skill fulfillment <span class="current-set">50</span></strong>
+                <strong>Skill fulfillment</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetFulfillment" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <br />
+                <strong>Employees ranked by best achievement</strong>
+            <br />
+            <div class="table-responsive" style="height: 520px;">
+                <table id="topEmployees" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Score</th>
+                            <th>Job Family</th>
+                            <th>Job Function</th>
+                            <th>Occupation</th>
+                            <th>Location</th>
+                            <th>Job Group</th>
+                            <th>Job Level</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
             <div style="clear:both;"></div>
         </div>
@@ -53,7 +75,7 @@
             </div>
         </div>
         <div class="row"></div>
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="margin-top: 20px;">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-lg-3 chart-right">
                     <div id="chart-occupation" class="chartBottom">
@@ -87,6 +109,18 @@
         </div>
     </div>
 </div>
+<script id="tplRowEmployee" type="text/template">
+    <tr uid="{{Id}}">
+        <td>{{Name}}</td>
+        <td>{{Score}}%</td>
+        <td>{{JobFamily}}</td>
+        <td>{{JobFunction}}</td>
+        <td>{{Occupation}}</td>
+        <td>{{Location}}</td>
+        <td>{{JobGroup}}</td>
+        <td>{{JobLevel}}</td>
+    </tr>    
+</script>
 
 @section Scripts
 {
@@ -97,9 +131,17 @@
             $('#selector-skillSet .active').removeClass('active');
             $(this).parent().addClass('active');
             var val = $(this).text();
-            $('.current-set').text(val);
             Draw();
         });
+        
+        _.tpl = function(tpl, model) {
+            var localTpl = tpl;
+            for (var key in model) {
+                var regex = new RegExp('{{' + key + '}}', 'g');
+                localTpl = localTpl.replace(regex, model[key]);
+            }
+            return localTpl;
+        };
 
         var mapo = _.compose(_.object, _.uniq, _.map);
 
@@ -115,6 +157,7 @@
             });
             return ss.Skills;
         }));
+        var employeesFiltered = [];
         
         _.each(sets, function(set, i) {
             var li = $('<li><a class="selector-link" href="">' + set.Name + '</a></li>');
@@ -130,9 +173,9 @@
             var skillSet = $('#selector-skillSet .active a').text();
             var skills;
             switch(skillSet) {
-                case 'Top':  skills = _.first(_.sortBy(skillsAll, function(s) { return s.Fulfillment; }).reverse(), 7); break;
-                case 'Gaps': skills = _.first(_.sortBy(skillsAll, function(s) { return s.Fulfillment; }), 7); break;
-                default:     skills = _.filter(skillsAll, function(s) { return s.SkillSet == skillSet; }); break;
+            case 'Top':  skills = _.first(_.sortBy(skillsAll, function(s) { return s.Fulfillment; }).reverse(), 7); break;
+            case 'Gaps': skills = _.first(_.sortBy(skillsAll, function(s) { return s.Fulfillment; }), 7); break;
+            default:     skills = _.filter(skillsAll, function(s) { return s.SkillSet == skillSet; }); break;
             }
             
             var containerMain = $('.chartMain').first().parent();
@@ -147,8 +190,8 @@
             _.each(src, function(e) {
                 if (!_.contains(skillIndexes, e.SkillId)) return;
                 e.SkillIndex = GetSkillIndex(skills, e.SkillId);
-                e.SkillName = GetSkillTitle(skills, e.SkillIndex);
                 employees.push(e);
+                //employeesFiltered.push(e);
             });
             
             // Preparing data
@@ -164,6 +207,7 @@
                         p.Rating += v.Rating;
                         p.MaleRating += v.Gender == 'Male' ? v.Rating : 0;
                         p.FemaleRating += v.Gender == 'Female' ? v.Rating : 0;
+                        if (!_.contains(employeesFiltered, v)) employeesFiltered.push(v);
                         return p;
                     },
                     function(p, v) {
@@ -173,13 +217,14 @@
                         p.Rating -= v.Rating;
                         p.MaleRating -= v.Gender == 'Male' ? v.Rating : 0;
                         p.FemaleRating -= v.Gender == 'Female' ? v.Rating : 0;
+                        if (_.contains(employeesFiltered, v)) employeesFiltered.splice(employeesFiltered.indexOf(v), 1);
                         return p;
                     },
                     function() {
                         return { Rating: 0, MaleRating: 0, FemaleRating: 0, Total: 0, Male: 0, Female: 0 };
                     });
             };
-
+            
             var skillNameDimension = ndx.dimension(function(emp) { return emp.SkillName; });
             var occupationDimension = ndx.dimension(function(emp) { return emp.OccupationArea; });
             var locationDimension = ndx.dimension(function(emp) { return emp.Location; });
@@ -188,9 +233,9 @@
             var functionDimension = ndx.dimension(function(emp) { return emp.JobFunction;  });
             var levelDimension = ndx.dimension(function(emp) { return emp.JobLevel; });
 
-            var functionAdd = function(p, v) {  p.push(v.Id); return p; };
-            var functionRemove = function(p, v) {  p.splice(p.indexOf(v.Id), 1); return p;};
-            var functionInitial = function() { return []; };
+            var functionAdd = function(p, v) { p.Total++; p.Rating += v.Rating; return p; };
+            var functionRemove = function(p, v) { p.Total--; p.Rating -= v.Rating; return p;};
+            var functionInitial = function() { return { Rating: 0, Total: 0}; };
             var group = function(dimension, fnFilter) { var gr = fnFilter ? dimension.group(fnFilter) : dimension.group(); return gr.reduce(functionAdd, functionRemove, functionInitial); };
 
             var skillNameGroup = group(skillNameDimension);
@@ -202,7 +247,8 @@
             var levelGroup = group(levelDimension);
 
             // Processing main charts
-            var xScaleSkills = d3.scale.linear().domain([0, skills.length]);
+            var scaleSkills = d3.scale.linear().domain([0, skills.length]);
+            var scalePercent = d3.scale.linear().domain([0, 100]);
             var ticks = _.range(skills.length);
             
             // calculate translates for bar charts
@@ -227,17 +273,12 @@
                     return GetSkillTitle(skills, d.x) + "\n  Rating: " + (d.data.value.Rating / (5 * d.data.value.Total) * 100).toPrecision(3) + "%";
                 })
                 .yAxisLabel('Fulfillment, %')
-                .x(xScaleSkills)
-                .y(d3.scale.linear().domain([0,100]))
+                .x(scaleSkills)
+                .y(scalePercent)
                 //.elasticY(true)
                 .renderHorizontalGridLines(true)
                 .brushOn(false)
                 .legend(dc.legend().x(55).y(30).itemHeight(13).gap(5))
-                /*.filterPrinter(function (filters) {
-                    var fLeft = (skills, Math.ceil(filters[0][0]));
-                    var fRight = (skills, Math.floor(filters[0][1]));
-                    return "Skills: " + skills[fLeft] + " - " + skills[fRight];
-                })*/
                 .renderlet(function (chart) {
                     chart.selectAll("g._0").attr("transform", "translate(" + t1 + ", 0)");
                     chart.selectAll("g._1").attr("transform", "translate(" + t2 + ", 0)");
@@ -252,7 +293,7 @@
                         .valueAccessor(function(d) { return d.value.MaleRating / (5 * d.value.Male) * 100; }),
                     dc.barChart(chartFulfillment).gap(gap).group(skillGroup(), "Female")
                         .title(function(d) { return "Female \n  Fulfillment: " + (d.data.value.FemaleRating / (5 * d.data.value.Female) * 100).toPrecision(3) + '%'; }).colors(['#ff7f0e'])
-                        .valueAccessor(function(d) { return d.value.FemaleRating / (5 * d.value.Female) * 100; }),
+                        .valueAccessor(function(d) { return d.value.FemaleRating / (5 * d.value.Female) * 100; })
                 ])
                 .on('postRender', function(chart) {
                     var x = wEff / 1.5;
@@ -267,6 +308,35 @@
             });
             chartFulfillment.yAxis().tickFormat(function(v) {return v + "%";});
 
+            
+            var filterEmployees = function(chart, filter) {
+                var topEmployees = _.chain(employeesFiltered)
+                    .groupBy(function(emp) { return emp.Id; })
+                    .map(function(emps, id) {
+                        return {
+                            Id: id,
+                            RowNum: 0,
+                            Name: "#" + id,
+                            Score: parseFloat((_.reduce(emps, function(memo, emp) { return memo + emp.Rating; }, 0) / (5 * emps.length) * 100).toPrecision(3)),
+                            JobFamily: emps[0].JobFamily,
+                            JobFunction: emps[0].JobFunction,
+                            Occupation: emps[0].OccupationArea,
+                            Location: emps[0].Location,
+                            JobGroup: emps[0].JobGroup,
+                            JobLevel: emps[0].JobLevel
+                        };
+                    })
+                    .sortBy(function(emp) { return emp.Score; })
+                    .last(10)
+                    .value()
+                    .reverse();
+                
+                var table = $('#topEmployees tbody');
+                table.children().remove();
+                _.each(topEmployees, function(emp) {
+                    table.append(_.tpl($('#tplRowEmployee').html(), emp));
+                });
+            };
 
             // Processing Other Charts
 
@@ -277,8 +347,14 @@
                     .radius(80)
                     .dimension(dimension)
                     .group(gr)
-                    .valueAccessor(function(d) { return d.value.length; })
-                    .colors(d3.scale.category20());
+                    .valueAccessor(function(d) {
+                         return d.value.Total == 0 ? 0 : d.value.Rating / (5 * d.value.Total) * 100;
+                    })
+                    .title(function(d) {
+                         return d.data.key + " " + (d.value).toPrecision(3) + '%';
+                    })
+                    .colors(d3.scale.category20())
+                    .on("filtered", filterEmployees);
             };
 
             var initRowChart = function(chart, dimension, gr) {
@@ -287,10 +363,11 @@
                     .height(310)
                     .dimension(dimension)
                     .group(gr)
-                    .valueAccessor(function(d) {
-                        return d.value.length;
-                    })
-                    .colors(d3.scale.category20());
+                    .valueAccessor(function(d) { return d.value.Total == 0 ? 0 : d.value.Rating / (5 * d.value.Total) * 100; })
+                    .title(function(d) { return d.key + " " + (d.value.Rating / (5 * d.value.Total) * 100).toPrecision(3) + '%'; })
+                    //.ordering(function(d) { return d.value.Rating / (5 * d.value.Total); })
+                    .colors(d3.scale.category20())
+                    .on("filtered", filterEmployees);
             };
 
             var skillChart = dc.rowChart("#chart-skill");
@@ -302,8 +379,6 @@
             var levelChart = dc.pieChart("#chart-level");
 
             initRowChart(skillChart, skillNameDimension, skillNameGroup);
-            //skillChart.valueAccessor(function(d) { return d.value.Total; });
-            //skillChart.keyAccessor(function(d) { return GetSkillTitle(skills, d.key); });
             initPieChart(occupationChart, occupationDimension, occupationGroup);
             initPieChart(locationChart, locationDimension, locationGroup);
             initPieChart(groupChart, groupDimension, jobGroupGroup);
@@ -325,6 +400,7 @@
             $('#resetLevel').on('click', fnReset(levelChart));
 
             dc.renderAll();
+            filterEmployees();
         }
         
         Draw();

@@ -10,7 +10,7 @@ namespace Workforce.Models
     {
         public int Id { get; set; }
         public int SkillId { get; set; }
-        //public string Skill { get; set; }
+        public string SkillName { get; set; }
         public bool IsCritical { get; set; }
         public bool? IsNeededInFuture { get; set; }
         public int? PlanningRating { get; set; }
@@ -40,7 +40,7 @@ namespace Workforce.Models
                 .Select(emp => new EmployeeSkillRow
                                    {
                                        Id = emp.ID,
-                                       //Skill = emp.Skill,
+                                       SkillName = emp.Skill,
                                        SkillId = emp.SkillId,
                                        IsCritical = emp.IsCritical,
                                        IsNeededInFuture = emp.IsNeededInFuture,
