@@ -176,6 +176,7 @@
             });
             return ss.Skills;
         }));
+        skillsAll = _.filter(skillsAll, function(s){ return !s.IsFuture;})
         var employeesFiltered = [];
         var isCritical = false;
         

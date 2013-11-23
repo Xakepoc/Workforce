@@ -12,7 +12,7 @@ namespace Workforce.Models
         public int SkillId { get; set; }
         public string SkillName { get; set; }
         public bool IsCritical { get; set; }
-        public bool? IsNeededInFuture { get; set; }
+        public bool? IsFuture { get; set; }
         public int? PlanningRating { get; set; }
         public string SkillSet { get; set; }
         public int Rating { get; set; }
@@ -43,7 +43,7 @@ namespace Workforce.Models
                                        SkillName = emp.Skill,
                                        SkillId = emp.SkillId,
                                        IsCritical = emp.IsCritical,
-                                       IsNeededInFuture = emp.IsNeededInFuture,
+                                       IsFuture = emp.IsNeededInFuture,
                                        PlanningRating = emp.PlanningRating,
                                        SkillSet = emp.SkillSet,
                                        Rating = emp.Rating,

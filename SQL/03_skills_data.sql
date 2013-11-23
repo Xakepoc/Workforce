@@ -13,6 +13,9 @@ INSERT INTO tblSkill VALUES ('Product development and engineering')
 INSERT INTO tblSkill VALUES ('Sales planning')
 INSERT INTO tblSkill VALUES ('Cost modelling')
 INSERT INTO tblSkill VALUES ('Marketing strategies')
+INSERT INTO tblSkill VALUES ('Technical engineering')
+INSERT INTO tblSkill VALUES ('Customer interaction')
+INSERT INTO tblSkill VALUES ('Cost benchmarking')
 
 GO
 
@@ -36,6 +39,11 @@ INSERT INTO tblSkillSetSkill VALUES (2, 11, 0, 0, NULL)
 INSERT INTO tblSkillSetSkill VALUES (2, 12, 1, 0, NULL)
 INSERT INTO tblSkillSetSkill VALUES (2, 13, 0, 0, NULL)
 INSERT INTO tblSkillSetSkill VALUES (2, 14, 1, 0, NULL)
+
+INSERT INTO tblSkillSetSkill VALUES (2, 15, 1, 0, 4)
+INSERT INTO tblSkillSetSkill VALUES (2, 16, 1, 0, 3)
+INSERT INTO tblSkillSetSkill VALUES (2, 17, 1, 0, 2)
+
 
 GO
 

@@ -10,7 +10,6 @@ namespace Workforce.DAL
         public string Name { get; set; }
         public int SkillSetId { get; set; }
         //public SkillSet SkillSet { get; set; }
-        //public Skill Skill { get; set; }
         public bool IsCritical { get; set; }
         public bool IsFuture { get; set; }
         public int PlanningRating { get; set; }
@@ -19,10 +18,8 @@ namespace Workforce.DAL
 
         public static SkillSetSkill Load(tblSkillSetSkill item)
         {
-            var dao = new LookupDao();
             return new SkillSetSkill
             {
-                //Skill = Skill.Load(item.tblSkill),
                 //SkillSet = SkillSet.Load(item.tblSkillSet),
                 SkillId = item.SkillId,
                 Name = item.tblSkill.Name,
@@ -37,7 +34,6 @@ namespace Workforce.DAL
         {
             return new SkillSetSkill
             {
-                //Skill = Skill.Load(item.tblSkill),
                 //SkillSet = SkillSet.Load(item.tblSkillSet),
                 SkillId = item.SkillId,
                 Name = item.tblSkill.Name,
