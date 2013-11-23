@@ -6,9 +6,15 @@
 }
 
 <div class="container">
-    <h2>Skills Status</h2>
+    <h2>
+        Skills Status 
+        <span id="selector-critical" class="header-selector">
+            <span class="header-selector-link" style="margin-left: 20px;">Critical</span>
+            <span class="header-selector-link active">All</span>
+        </span>
+    </h2>
     <div class="row" style="margin-top: 30px;">
-        <div id="selector-skillSet" class="col-xs-12">
+        <div id="selector-skillSet" class="selector col-xs-12">
             <h4>Select skill set:</h4>
             <ul class="nav nav-pills">
                 <li><a class="selector-link" href="">Top</a></li>
@@ -17,20 +23,25 @@
             </ul>
             <div class="clear"></div>
         </div>
-        <br />
         <div class="col-xs-12 col-lg-8">
-            <br />
             <div id="chart-fulfillment" class="chartMain" style="width:100%">
                 <strong>Skill fulfillment</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetFulfillment" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
             </div>
+            <br />
+            <div id="chart-fulfillment-totals" class="chartMain" style="width:100%">
+                <strong>Skill fulfillment Totals</strong>
+                <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+                <a id="resetFulfillmentTotals" class="reset" href="" style="display: none;">reset</a>
+                <div class="clearfix"></div>
+            </div>
             <div style="clear:both;"></div>
             <br />
-                <strong>Employees ranked by best achievement</strong>
+            <strong>Employees ranked by best achievement</strong>
             <br />
-            <div class="table-responsive" style="height: 520px;">
+            <div class="table-responsive">
                 <table id="topEmployees" class="table table-striped">
                     <thead>
                         <tr>
@@ -128,9 +139,17 @@
         
         $(document).on('click', '.selector-link', function(e) {
             e.preventDefault();
+            if ($(this).parent().hasClass('active')) return;
             $('#selector-skillSet .active').removeClass('active');
             $(this).parent().addClass('active');
-            var val = $(this).text();
+            Draw();
+        });
+        $(document).on('click', '#selector-critical .header-selector-link', function(e) {
+            e.preventDefault();
+            if ($(this).hasClass('active')) return;
+            $('#selector-critical .active').removeClass('active');
+            $(this).addClass('active');
+            isCritical = $(this).text() == "Critical";
             Draw();
         });
         
@@ -158,6 +177,7 @@
             return ss.Skills;
         }));
         var employeesFiltered = [];
+        var isCritical = false;
         
         _.each(sets, function(set, i) {
             var li = $('<li><a class="selector-link" href="">' + set.Name + '</a></li>');
@@ -171,11 +191,11 @@
         function Draw() {
             dc.filterAll();
             var skillSet = $('#selector-skillSet .active a').text();
-            var skills;
+            var skills = _.filter(skillsAll, function(s) { return isCritical ? s.IsCritical : true; });
             switch(skillSet) {
-            case 'Top':  skills = _.first(_.sortBy(skillsAll, function(s) { return s.Fulfillment; }).reverse(), 7); break;
-            case 'Gaps': skills = _.first(_.sortBy(skillsAll, function(s) { return s.Fulfillment; }), 7); break;
-            default:     skills = _.filter(skillsAll, function(s) { return s.SkillSet == skillSet; }); break;
+                case 'Top':  skills = _.first(_.sortBy(skills, function(s) { return s.Fulfillment; }).reverse(), 7); break;
+                case 'Gaps': skills = _.first(_.sortBy(skills, function(s) { return s.Fulfillment; }), 7); break;
+                default:     skills = _.filter(skills, function(s) { return s.SkillSet == skillSet; }); break;
             }
             
             var containerMain = $('.chartMain').first().parent();
@@ -191,7 +211,6 @@
                 if (!_.contains(skillIndexes, e.SkillId)) return;
                 e.SkillIndex = GetSkillIndex(skills, e.SkillId);
                 employees.push(e);
-                //employeesFiltered.push(e);
             });
             
             // Preparing data
@@ -207,6 +226,8 @@
                         p.Rating += v.Rating;
                         p.MaleRating += v.Gender == 'Male' ? v.Rating : 0;
                         p.FemaleRating += v.Gender == 'Female' ? v.Rating : 0;
+                        if (v.Gender == 'Male') p.EmpsMale.push(v.Id);
+                        if (v.Gender == 'Female') p.EmpsFemale.push(v.Id);
                         if (!_.contains(employeesFiltered, v)) employeesFiltered.push(v);
                         return p;
                     },
@@ -217,11 +238,14 @@
                         p.Rating -= v.Rating;
                         p.MaleRating -= v.Gender == 'Male' ? v.Rating : 0;
                         p.FemaleRating -= v.Gender == 'Female' ? v.Rating : 0;
+                        if (v.Gender == 'Male') p.EmpsMale.splice(p.EmpsMale.indexOf(v.Id), 1);
+                        if (v.Gender == 'Female') p.EmpsFemale.splice(p.EmpsFemale.indexOf(v.Id), 1);
                         if (_.contains(employeesFiltered, v)) employeesFiltered.splice(employeesFiltered.indexOf(v), 1);
+                        
                         return p;
                     },
                     function() {
-                        return { Rating: 0, MaleRating: 0, FemaleRating: 0, Total: 0, Male: 0, Female: 0 };
+                        return { Rating: 0, MaleRating: 0, FemaleRating: 0, Total: 0, Male: 0, Female: 0, EmpsMale:[], EmpsFemale:[] };
                     });
             };
             
@@ -232,18 +256,20 @@
             var familyDimension = ndx.dimension(function(emp) { return emp.JobFamily; });
             var functionDimension = ndx.dimension(function(emp) { return emp.JobFunction;  });
             var levelDimension = ndx.dimension(function(emp) { return emp.JobLevel; });
-
-            var functionAdd = function(p, v) { p.Total++; p.Rating += v.Rating; return p; };
-            var functionRemove = function(p, v) { p.Total--; p.Rating -= v.Rating; return p;};
-            var functionInitial = function() { return { Rating: 0, Total: 0}; };
+            
+            var functionAdd = function(p, v) { p.Total++; p.Rating += v.Rating; p.Emps.push(v.Id); return p; };
+            var functionRemove = function(p, v) { p.Total--; p.Rating -= v.Rating; p.Emps.splice(p.Emps.indexOf(v.Id), 1); return p;};
+            var functionInitial = function() { return { Rating: 0, Total: 0, Emps: []}; };
             var group = function(dimension, fnFilter) { var gr = fnFilter ? dimension.group(fnFilter) : dimension.group(); return gr.reduce(functionAdd, functionRemove, functionInitial); };
 
             var skillNameGroup = group(skillNameDimension);
             var occupationGroup = group(occupationDimension);
             var locationGroup = group(locationDimension);
             var jobGroupGroup = group(groupDimension);
-            var familyGroup = group(familyDimension, function(v) { if (_.contains(jobFamilies, v)) return v; });
-            var functionGroup = group(functionDimension, function(v) { if (_.contains(jobFunctions, v)) return v; });
+            //var familyGroup = group(familyDimension, function(v) { if (_.contains(jobFamilies, v)) return v; });
+            var familyGroup = group(familyDimension);
+            //var functionGroup = group(functionDimension, function(v) { if (_.contains(jobFunctions, v)) return v; });
+            var functionGroup = group(functionDimension);
             var levelGroup = group(levelDimension);
 
             // Processing main charts
@@ -252,19 +278,20 @@
             var ticks = _.range(skills.length);
             
             // calculate translates for bar charts
-            var chartFulfillment = dc.compositeChart("#chart-fulfillment");
             var marginRight = 50, marginLeft = 33;
             var k = 3; // number of bars
             var w = (wMain - marginLeft - marginRight) / skills.length; // column width
-            var colRightMargin = w / 5, colLeftMargin = w / 20; // left and right column margins
+            var colRightMargin = w / 5, colLeftMargin = w / 10; // left and right column margins
             var wEff = w - colLeftMargin - colRightMargin; // effective column width
-            var barMargin = wEff/k/(k+1), gap = wEff * (k - 1) / k + barMargin  + colRightMargin + colRightMargin, translate = wEff / k;
+            var barMargin = (wEff/k)*(0.25), translate = wEff / k; // margin between bars and translate
+            var wBarEff = wEff / k - barMargin; // effective bar width
             var t1 = colLeftMargin + translate * 0, t2 = colLeftMargin + translate * 1, t3 = colLeftMargin + translate*2;
-
+            
+            var chartFulfillment = dc.compositeChart("#chart-fulfillment");
             chartFulfillment
                 .width(wMain)
                 .height(400)
-                .transitionDuration(200)
+                .transitionDuration(0)
                 .margins({ top: 30, right: marginRight, bottom: 35, left: marginLeft })
                 .dimension(skillDimension)
                 .group(skillGroup(), "Rating")
@@ -280,18 +307,19 @@
                 .brushOn(false)
                 .legend(dc.legend().x(55).y(30).itemHeight(13).gap(5))
                 .renderlet(function (chart) {
-                    chart.selectAll("g._0").attr("transform", "translate(" + t1 + ", 0)");
-                    chart.selectAll("g._1").attr("transform", "translate(" + t2 + ", 0)");
-                    chart.selectAll("g._2").attr("transform", "translate(" + t3 + ", 0)");
+                    chart.selectAll("g.sub._0").attr("transform", "translate(" + t1 + ", 0)");
+                    chart.selectAll("g.sub._1").attr("transform", "translate(" + t2 + ", 0)");
+                    chart.selectAll("g.sub._2").attr("transform", "translate(" + t3 + ", 0)");
+                    chart.selectAll("g.stack rect").attr("width", wBarEff);
                 })
                 .compose([
-                    dc.barChart(chartFulfillment).gap(gap).group(skillGroup(), "Total")
+                    dc.barChart(chartFulfillment).group(skillGroup(), "Total")
                         .title(function(d) { return "Total \n  Fulfillment: " + (d.data.value.Rating / (5 * d.data.value.Total) * 100).toPrecision(3) + '%'; }).colors(['#2ca02c'])
                         .valueAccessor(function(d) { return d.value.Rating / (5 * d.value.Total) * 100; }),
-                    dc.barChart(chartFulfillment).gap(gap).group(skillGroup(), "Male")
+                    dc.barChart(chartFulfillment).group(skillGroup(), "Male")
                         .title(function(d) { return "Male \n  Fulfillment: " + (d.data.value.MaleRating / (5 * d.data.value.Male) * 100).toPrecision(3) + '%'; }).colors(['#1f77b4'])
                         .valueAccessor(function(d) { return d.value.MaleRating / (5 * d.value.Male) * 100; }),
-                    dc.barChart(chartFulfillment).gap(gap).group(skillGroup(), "Female")
+                    dc.barChart(chartFulfillment).group(skillGroup(), "Female")
                         .title(function(d) { return "Female \n  Fulfillment: " + (d.data.value.FemaleRating / (5 * d.data.value.Female) * 100).toPrecision(3) + '%'; }).colors(['#ff7f0e'])
                         .valueAccessor(function(d) { return d.value.FemaleRating / (5 * d.value.Female) * 100; })
                 ])
@@ -302,12 +330,50 @@
                         .selectAll("text")
                         .attr("transform", function(i) { return "translate (" + x + ", " + (i % 2 == 0 ? 0 : 15) + ")"; });
                 });
-            chartFulfillment.xAxis().tickFormat(function(v) {
+            chartFulfillment.xAxis().tickValues(ticks).tickFormat(function(v) {
                 if (v < 0 || v >= skills.length) return '';
                 return GetSkillTitle(skills, v);
             });
             chartFulfillment.yAxis().tickFormat(function(v) {return v + "%";});
-
+            
+            var chartFulfillmentTotals = dc.barChart("#chart-fulfillment-totals");
+            chartFulfillmentTotals
+                .width(wMain)
+                .height(400)
+                .transitionDuration(0)
+                .margins({ top: 30, right: marginRight, bottom: 35, left: marginLeft })
+                .dimension(skillDimension)
+                .group(skillGroup(), "Male")
+                .valueAccessor(function(d) { return _.uniq(d.value.EmpsMale).length; })
+                .stack(skillGroup(), "Female", function(d) { return _.uniq(d.value.EmpsFemale).length; })
+                .title(function(d) {
+                    return GetSkillTitle(skills, d.x) +
+                        "\n  Male: " + _.uniq(d.data.value.EmpsMale).length + " / " + (d.data.value.MaleRating / (5 * d.data.value.Male) * 100).toPrecision(3) + '%' +
+                        "\n  Female: " + _.uniq(d.data.value.EmpsFemale).length + " / " + (d.data.value.FemaleRating / (5 * d.data.value.Female) * 100).toPrecision(3) + '%' +
+                        "\n  Total: " + (_.uniq(d.data.value.EmpsMale).length + _.uniq(d.data.value.EmpsFemale).length) + " / " + (d.data.value.Rating / (5 * d.data.value.Total) * 100).toPrecision(3) + '%';
+                })
+                .yAxisLabel('Number of Employees')
+                .x(scaleSkills)
+                .elasticY(true)
+                .gap(2*wEff / 3)
+                .renderlet(function (chart) {
+                    chart.selectAll("g._0").attr("transform", "translate(" + wEff / 3 + ", 0)");
+                    chart.selectAll("g._1").attr("transform", "translate(" + wEff / 3 + ", 0)");
+                })
+                .renderHorizontalGridLines(true)
+                .brushOn(false)
+                .legend(dc.legend().x(55).y(30).itemHeight(13).gap(5))
+                .on('postRender', function(chart) {
+                    var x = wEff / 1.5;
+                    chart.svg()
+                        .select('.axis.x')
+                        .selectAll("text")
+                        .attr("transform", function(i) { return "translate (" + x + ", " + (i % 2 == 0 ? 0 : 15) + ")"; });
+                });
+            chartFulfillmentTotals.xAxis().tickValues(ticks).tickFormat(function(v) {
+                if (v < 0 || v >= skills.length) return '';
+                return GetSkillTitle(skills, v);
+            });
             
             var filterEmployees = function(chart, filter) {
                 var topEmployees = _.chain(employeesFiltered)
@@ -327,7 +393,7 @@
                         };
                     })
                     .sortBy(function(emp) { return emp.Score; })
-                    .last(10)
+                    .last(15)
                     .value()
                     .reverse();
                 
@@ -347,27 +413,26 @@
                     .radius(80)
                     .dimension(dimension)
                     .group(gr)
-                    .valueAccessor(function(d) {
-                         return d.value.Total == 0 ? 0 : d.value.Rating / (5 * d.value.Total) * 100;
-                    })
-                    .title(function(d) {
-                         return d.data.key + " " + (d.value).toPrecision(3) + '%';
-                    })
+                    .valueAccessor(function(d) { return d.value.Total == 0 ? 0 : d.value.Rating / (5 * d.value.Total) * 100; })
+                    .title(function(d) { return d.data.key + " - Total: " + _.uniq(d.value.Emps).length + ", Score: " + (d.value).toPrecision(3) + '%'; })
                     .colors(d3.scale.category20())
                     .on("filtered", filterEmployees);
             };
 
             var initRowChart = function(chart, dimension, gr) {
-                return chart
+                var ch = chart
                     .width(wRight)
                     .height(310)
                     .dimension(dimension)
                     .group(gr)
-                    .valueAccessor(function(d) { return d.value.Total == 0 ? 0 : d.value.Rating / (5 * d.value.Total) * 100; })
-                    .title(function(d) { return d.key + " " + (d.value.Rating / (5 * d.value.Total) * 100).toPrecision(3) + '%'; })
+                    .valueAccessor(function(d) { return d.value.Total == 0 ? 0.0 : d.value.Rating / (5 * d.value.Total) * 100; })
+                    .title(function(d) { return (d.key ? d.key : "Empty") + " - Total: " + _.uniq(d.value.Emps).length + ", Score: " + (d.value.Rating / (5 * d.value.Total) * 100).toPrecision(3) + '%'; })
                     //.ordering(function(d) { return d.value.Rating / (5 * d.value.Total); })
+                    //.x(d3.scale.linear().domain([0,100]))
+                    .elasticX(false)
                     .colors(d3.scale.category20())
                     .on("filtered", filterEmployees);
+                return ch;
             };
 
             var skillChart = dc.rowChart("#chart-skill");
@@ -378,12 +443,12 @@
             var functionChart = dc.rowChart("#chart-function");
             var levelChart = dc.pieChart("#chart-level");
 
-            initRowChart(skillChart, skillNameDimension, skillNameGroup);
+            initRowChart(skillChart, skillNameDimension, skillNameGroup).height(skills.length*30).labelOffsetY(7 + skills.length);
             initPieChart(occupationChart, occupationDimension, occupationGroup);
             initPieChart(locationChart, locationDimension, locationGroup);
             initPieChart(groupChart, groupDimension, jobGroupGroup);
-            initRowChart(familyChart, familyDimension, familyGroup);
-            initRowChart(functionChart, functionDimension, functionGroup);
+            initRowChart(familyChart, familyDimension, familyGroup).height(familyGroup.all().length*20).labelOffsetY(11);
+            initRowChart(functionChart, functionDimension, functionGroup).height(functionGroup.all().length*20).labelOffsetY(11);
             initPieChart(levelChart, levelDimension, levelGroup);
             
             var fnReset = function(chart) {

@@ -200,6 +200,8 @@
     <Content Include="Views\Distribution\AgeDevelopment.cshtml" />
     <Content Include="Views\Distribution\Retirements.cshtml" />
     <Content Include="Views\Distribution\SkillsStatus.cshtml" />
+    <Content Include="Views\Distribution\CriticalSkills.cshtml" />
+    <Content Include="Views\Distribution\SkillsForecast.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

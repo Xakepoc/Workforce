@@ -50,7 +50,9 @@ BEGIN
 
 	INSERT INTO tblEmployeeSkill
 	SELECT
-		*,
+		t.EmployeeId,
+		t.SkillId,
+		t.Rating,
 		(CASE
 			WHEN t.Rating >=3 
 			THEN (CASE WHEN RAND(CAST(NEWID() AS binary(8))) < 0.5 THEN 0 ELSE 1 END)
@@ -60,10 +62,11 @@ BEGIN
 		SELECT
 			e.ID AS EmployeeId,
 			s.Id AS SkillId,
-			1 + ABS(CHECKSUM(NewId())) % 5 AS Rating
+			1 + ABS(CHECKSUM(NewId())) % 5 AS Rating,
+			(CASE WHEN RAND(CAST(NEWID() AS binary(8))) < 0.5 THEN 0 ELSE 1 END) AS IsInsert
 		FROM vwEmplScen e, tblSkill s
 	) t
-	WHERE NOT EXISTS (SELECT * FROM tblEmployeeSkill es WHERE es.EmployeeId = t.EmployeeId AND es.SkillId = t.SkillId)
+	WHERE NOT EXISTS (SELECT * FROM tblEmployeeSkill es WHERE es.EmployeeId = t.EmployeeId AND es.SkillId = t.SkillId) AND t.IsInsert = 1
 
 END
 

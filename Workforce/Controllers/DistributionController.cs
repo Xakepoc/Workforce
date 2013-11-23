@@ -35,5 +35,17 @@ namespace Workforce.Controllers
             var model = new SkillDistribution();
             return View(model);
         }
+
+        public ActionResult CriticalSkills()
+        {
+            var model = new SkillDistribution();
+            return View(model);
+        }
+
+        public ActionResult SkillsForecast()
+        {
+            var model = new SkillDistribution();
+            return View(model);
+        }
     }
 }

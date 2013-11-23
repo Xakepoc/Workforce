@@ -8,7 +8,7 @@
 <div class="container">
     <h2>Progression of Age Groups 50+ and 55+</h2>
     <div class="row" style="margin-top: 30px;">
-        <div class="col-xs-12 age-selector">
+        <div class="col-xs-12 selector">
             <h4>Select age:</h4>
             <ul class="nav nav-pills">
                 <li class="active"><a class="age-link" href="#">50</a></li>
@@ -96,7 +96,7 @@
 
         $('.age-link').on('click', function(e) {
             e.preventDefault();
-            $('.age-selector .active').removeClass('active');
+            $('.selector .active').removeClass('active');
             $(this).parent().addClass('active');
             var age = $(this).text();
             $('.current-age').text(age);
@@ -111,7 +111,7 @@
         
         function Draw() {
             dc.filterAll();
-            var critAge = parseInt($('.age-selector .active a').text());
+            var critAge = parseInt($('.selector .active a').text());
             if (!critAge) critAge = 50;
             
             var containerMain = $('#age-chart-distribution').parent();
@@ -225,17 +225,20 @@
                         .group(workforceGroup(), "Total")
                         .valueAccessor(function(d) { return d.value.Total; })
                         .title(function(d) { return "Year: " + d.x + ", Total: " + d.y; })
+                        .dotRadius(3)
                         .colors(["#ff0000"]),
                     dc.lineChart(ageChartNumber)
                         .group(workforceGroup(), "Male")
                         .valueAccessor(function(d) { return d.value.Male; })
                         .title(function(d) { return "Year: " + d.x + ", Male: " + d.y; })
+                        .dotRadius(3)
                         .colors(["#1f77b4"])
                         .renderArea(true),
                     dc.lineChart(ageChartNumber)
                         .group(workforceGroup(), "Female")
                         .valueAccessor(function(d) { return d.value.Female; })
                         .title(function(d) { return "Year: " + d.x + ", Female: " + d.y; })
+                        .dotRadius(3)
                         .colors(["#ff7f0e"])
                         .renderArea(true)
                 ])
@@ -247,6 +250,10 @@
                 .elasticY(true)
                 .renderHorizontalGridLines(true)
                 .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
+                .renderlet(function (chart) {
+                    chart.selectAll("circle").attr("style", "fill-opacity:0.8; stroke-opacity:0.8");
+                    chart.selectAll("circle").on("mouseout", function(d) { d3.selectAll('g.dc-tooltip path').style("display", "none"); });
+                })
                 .brushOn(false)
                 .xAxis()
                 .tickFormat(d3.format('.0f'));

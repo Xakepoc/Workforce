@@ -7,7 +7,7 @@
 <div class="container">
     <h2>Workforce Age Development</h2>
     <div class="row" style="margin-top: 30px;">
-        <div class="col-xs-12 age-selector">
+        <div class="col-xs-12 selector">
             <ul class="nav nav-pills">
                 <li><a href="javascript:dc.filterAll();dc.renderAll();">Reset All Filters</a></li>
             </ul>
@@ -87,7 +87,7 @@
     <script type="text/javascript">
 
         $('.age-link').on('click', function(e) {
-            $('.age-selector .active').removeClass('active');
+            $('.selector .active').removeClass('active');
             $(this).parent().addClass('active');
             var age = $(this).text();
             $('.current-age').text(age);
@@ -253,13 +253,15 @@
                 return idx;
             };
             // calculate translates for bar charts
-            var marginRight = 50, marginLeft = 30;
+            var marginRight = 50, marginLeft = 33;
             var k = 3; // number of bars
             var w = (wMain - marginLeft - marginRight) / ageGroups.length; // column width
-            var colRightMargin = w / 5, colLeftMargin = w / 20; // left and right column margins
+            var colRightMargin = w / 5, colLeftMargin = w / 10; // left and right column margins
             var wEff = w - colLeftMargin - colRightMargin; // effective column width
-            var barMargin = wEff/k/(k+1), gap = wEff * (k - 1) / k + barMargin  + colRightMargin + colRightMargin, translate = wEff / k;
-            var t1 = colLeftMargin + translate * 0, t2 = colLeftMargin + translate * 1, t3 = colLeftMargin + translate * 2;
+            var barMargin = (wEff/k)*(0.25), translate = wEff / k; // margin between bars and translate
+            var wBarEff = wEff / k - barMargin; // effective bar width
+            var t1 = colLeftMargin + translate * 0, t2 = colLeftMargin + translate * 1, t3 = colLeftMargin + translate*2;
+            
             var ageChartForecast = dc.compositeChart("#age-chart-forecast");
             ageChartForecast
                 .width(wMain)
@@ -280,9 +282,10 @@
                 .brushOn(false)
                 .legend(dc.legend().x(50).y(30).itemHeight(13).gap(5))
 	            .renderlet(function (chart) {
-	                chart.selectAll("g._0").attr("transform", "translate(" + t1 + ", 0)");
-	                chart.selectAll("g._1").attr("transform", "translate(" + t2 + ", 0)");
-	                chart.selectAll("g._2").attr("transform", "translate(" + t3 + ", 0)");
+	                chart.selectAll("g.sub._0").attr("transform", "translate(" + t1 + ", 0)");
+	                chart.selectAll("g.sub._1").attr("transform", "translate(" + t2 + ", 0)");
+	                chart.selectAll("g.sub._2").attr("transform", "translate(" + t3 + ", 0)");
+	                chart.selectAll("g.stack rect").attr("width", wBarEff);
 	            })
                 .filterPrinter(function (filters) {
                     var fLeft = normalizeRange(ageGroups, Math.ceil(filters[0][0]));
@@ -290,9 +293,9 @@
                     return "Age " + ageGroups[fLeft].Min + " - " + ageGroups[fRight].Max;
                 })
                 .compose([
-                    dc.barChart(ageChartForecast).gap(gap).group(ageGrGroup(), "2015").title(function(d) { return "Year 2015 \n  Number of employees: " + d.data.value.Years[2015]; }).colors(['#1f77b4']).valueAccessor(function(d) { return d.value.Years[2015]; }),
-                    dc.barChart(ageChartForecast).gap(gap).group(ageGrGroup(), "2020").title(function(d) { return "Year 2020 \n  Number of employees: " + d.data.value.Years[2020]; }).colors(['#ff7f0e']).valueAccessor(function(d) { return d.value.Years[2020]; }),
-                    dc.barChart(ageChartForecast).gap(gap).group(ageGrGroup(), "2025").title(function(d) { return "Year 2025 \n  Number of employees: " + d.data.value.Years[2025]; }).colors(['#2ca02c']).valueAccessor(function(d) { return d.value.Years[2025]; })
+                    dc.barChart(ageChartForecast).group(ageGrGroup(), "2015").title(function(d) { return "Year 2015 \n  Number of employees: " + d.data.value.Years[2015]; }).colors(['#1f77b4']).valueAccessor(function(d) { return d.value.Years[2015]; }),
+                    dc.barChart(ageChartForecast).group(ageGrGroup(), "2020").title(function(d) { return "Year 2020 \n  Number of employees: " + d.data.value.Years[2020]; }).colors(['#ff7f0e']).valueAccessor(function(d) { return d.value.Years[2020]; }),
+                    dc.barChart(ageChartForecast).group(ageGrGroup(), "2025").title(function(d) { return "Year 2025 \n  Number of employees: " + d.data.value.Years[2025]; }).colors(['#2ca02c']).valueAccessor(function(d) { return d.value.Years[2025]; })
                 ])
                 .on('postRender', function(chart) {
                     var x = wEff / 2;

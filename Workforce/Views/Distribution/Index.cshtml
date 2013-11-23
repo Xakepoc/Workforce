@@ -7,7 +7,7 @@
 <div class="container">
     <h2>As-is Workforce Age Distribution</h2>
     <div class="row" style="margin-top: 30px;">
-        <div class="col-xs-12 age-selector">
+        <div class="col-xs-12 selector">
             <ul class="nav nav-pills">
                 <li><a href="javascript:dc.filterAll();dc.renderAll();">Reset All Filters</a></li>
             </ul>
@@ -87,7 +87,7 @@
     <script type="text/javascript">
 
         $('.age-link').on('click', function(e) {
-            $('.age-selector .active').removeClass('active');
+            $('.selector .active').removeClass('active');
             $(this).parent().addClass('active');
             var age = $(this).text();
             $('.current-age').text(age);
