@@ -1,18 +1,18 @@
-INSERT INTO tblSkill VALUES ('Thinks strategically', 0, 0, NULL)
-INSERT INTO tblSkill VALUES ('Develops people and organization', 1, 0, NULL)
-INSERT INTO tblSkill VALUES ('Drives performance', 0, 0, NULL)
-INSERT INTO tblSkill VALUES ('Manages change', 1, 0, NULL)
-INSERT INTO tblSkill VALUES ('Collaborates well', 1, 0, NULL)
-INSERT INTO tblSkill VALUES ('Motivates others', 0, 0, NULL)
-INSERT INTO tblSkill VALUES ('Makes timely decisions', 1, 0, NULL)
+INSERT INTO tblSkill VALUES ('Thinks strategically')
+INSERT INTO tblSkill VALUES ('Develops people and organization')
+INSERT INTO tblSkill VALUES ('Drives performance')
+INSERT INTO tblSkill VALUES ('Manages change')
+INSERT INTO tblSkill VALUES ('Collaborates well')
+INSERT INTO tblSkill VALUES ('Motivates others')
+INSERT INTO tblSkill VALUES ('Makes timely decisions')
 
-INSERT INTO tblSkill VALUES ('Customer relationship management', 0, 0, NULL)
-INSERT INTO tblSkill VALUES ('Pricing models', 1, 0, NULL)
-INSERT INTO tblSkill VALUES ('Productivity modelling', 1, 0, NULL)
-INSERT INTO tblSkill VALUES ('Product development and engineering', 0, 0, NULL)
-INSERT INTO tblSkill VALUES ('Sales planning', 1, 0, NULL)
-INSERT INTO tblSkill VALUES ('Cost modelling', 0, 0, NULL)
-INSERT INTO tblSkill VALUES ('Marketing strategies', 1, 0, NULL)
+INSERT INTO tblSkill VALUES ('Customer relationship management')
+INSERT INTO tblSkill VALUES ('Pricing models')
+INSERT INTO tblSkill VALUES ('Productivity modelling')
+INSERT INTO tblSkill VALUES ('Product development and engineering')
+INSERT INTO tblSkill VALUES ('Sales planning')
+INSERT INTO tblSkill VALUES ('Cost modelling')
+INSERT INTO tblSkill VALUES ('Marketing strategies')
 
 GO
 
@@ -21,21 +21,21 @@ INSERT INTO tblSkillSet VALUES ('Commercial')
 
 GO
 
-INSERT INTO tblSkillSetSkill VALUES (1, 1)
-INSERT INTO tblSkillSetSkill VALUES (1, 2)
-INSERT INTO tblSkillSetSkill VALUES (1, 3)
-INSERT INTO tblSkillSetSkill VALUES (1, 4)
-INSERT INTO tblSkillSetSkill VALUES (1, 5)
-INSERT INTO tblSkillSetSkill VALUES (1, 6)
-INSERT INTO tblSkillSetSkill VALUES (1, 7)
+INSERT INTO tblSkillSetSkill VALUES (1, 1, 0, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (1, 2, 1, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (1, 3, 0, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (1, 4, 1, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (1, 5, 1, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (1, 6, 0, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (1, 7, 1, 0, NULL)
 
-INSERT INTO tblSkillSetSkill VALUES (2, 8)
-INSERT INTO tblSkillSetSkill VALUES (2, 9)
-INSERT INTO tblSkillSetSkill VALUES (2, 10)
-INSERT INTO tblSkillSetSkill VALUES (2, 11)
-INSERT INTO tblSkillSetSkill VALUES (2, 12)
-INSERT INTO tblSkillSetSkill VALUES (2, 13)
-INSERT INTO tblSkillSetSkill VALUES (2, 14)
+INSERT INTO tblSkillSetSkill VALUES (2, 8, 0, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (2, 9, 1, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (2, 10, 1, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (2, 11, 0, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (2, 12, 1, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (2, 13, 0, 0, NULL)
+INSERT INTO tblSkillSetSkill VALUES (2, 14, 1, 0, NULL)
 
 GO
 
@@ -72,16 +72,17 @@ END
 
 GO
 
-CREATE PROCEDURE dbo.spGetEmployeeSkills
+CREATE PROCEDURE [dbo].[spGetEmployeeSkills]
 AS
 BEGIN
 
 	SELECT
 		 emp.ID
+		,s.Id AS SkillId
 		,s.Name AS Skill
-		,s.IsCritical
-		,s.IsNeededInFuture
-		,s.PlanningRating
+		,sss.IsCritical
+		,sss.IsNeededInFuture
+		,sss.PlanningRating
 		,ss.Name AS SkillSet
 		,es.Rating
 		,es.DevelopmentOpportunity

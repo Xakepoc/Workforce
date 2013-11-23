@@ -29,17 +29,22 @@ namespace Workforce.DAL
             return dc.tblScenAgeGrps.Where(arg => arg.ScenID == 1).ToList();
         }
 
-        public List<Skill> GetSkills(int setId)
+        public List<SkillSetSkill> GetSkills(int setId)
         {
             var employeeSkills = dc.tblEmployeeSkills.ToList();
-            return (from s in dc.tblSkills
-                    join ss in dc.tblSkillSetSkills on s.Id equals ss.SkillId
-                    where ss.SkillSetId == setId
-                    select Skill.Load(s, employeeSkills))
+            return dc.tblSkillSetSkills
+                .Where(s => s.SkillSetId == setId)
+                .Select(s => SkillSetSkill.Load(s, employeeSkills))
                 .ToList();
         }
 
-        public List<Skill> GetSkills()
+        public List<SkillSetSkill> GetSkills()
+        {
+            var employeeSkills = dc.tblEmployeeSkills.ToList();
+            return dc.tblSkillSetSkills.Select(s => SkillSetSkill.Load(s, employeeSkills)).ToList();
+        }
+
+        public List<Skill> GetSkillNames()
         {
             var employeeSkills = dc.tblEmployeeSkills.ToList();
             return dc.tblSkills.Select(s => Skill.Load(s, employeeSkills)).ToList();

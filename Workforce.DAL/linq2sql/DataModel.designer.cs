@@ -138,18 +138,18 @@ namespace Workforce.DAL.linq2sql
     partial void InserttblYear(tblYear instance);
     partial void UpdatetblYear(tblYear instance);
     partial void DeletetblYear(tblYear instance);
-    partial void InserttblSkill(tblSkill instance);
-    partial void UpdatetblSkill(tblSkill instance);
-    partial void DeletetblSkill(tblSkill instance);
-    partial void InserttblSkillSetSkill(tblSkillSetSkill instance);
-    partial void UpdatetblSkillSetSkill(tblSkillSetSkill instance);
-    partial void DeletetblSkillSetSkill(tblSkillSetSkill instance);
     partial void InserttblSkillSet(tblSkillSet instance);
     partial void UpdatetblSkillSet(tblSkillSet instance);
     partial void DeletetblSkillSet(tblSkillSet instance);
     partial void InserttblEmployeeSkill(tblEmployeeSkill instance);
     partial void UpdatetblEmployeeSkill(tblEmployeeSkill instance);
     partial void DeletetblEmployeeSkill(tblEmployeeSkill instance);
+    partial void InserttblSkill(tblSkill instance);
+    partial void UpdatetblSkill(tblSkill instance);
+    partial void DeletetblSkill(tblSkill instance);
+    partial void InserttblSkillSetSkill(tblSkillSetSkill instance);
+    partial void UpdatetblSkillSetSkill(tblSkillSetSkill instance);
+    partial void DeletetblSkillSetSkill(tblSkillSetSkill instance);
     #endregion
 		
 		public DataModelDataContext() : 
@@ -526,22 +526,6 @@ namespace Workforce.DAL.linq2sql
 			}
 		}
 		
-		public System.Data.Linq.Table<tblSkill> tblSkills
-		{
-			get
-			{
-				return this.GetTable<tblSkill>();
-			}
-		}
-		
-		public System.Data.Linq.Table<tblSkillSetSkill> tblSkillSetSkills
-		{
-			get
-			{
-				return this.GetTable<tblSkillSetSkill>();
-			}
-		}
-		
 		public System.Data.Linq.Table<tblSkillSet> tblSkillSets
 		{
 			get
@@ -555,6 +539,22 @@ namespace Workforce.DAL.linq2sql
 			get
 			{
 				return this.GetTable<tblEmployeeSkill>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tblSkill> tblSkills
+		{
+			get
+			{
+				return this.GetTable<tblSkill>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tblSkillSetSkill> tblSkillSetSkills
+		{
+			get
+			{
+				return this.GetTable<tblSkillSetSkill>();
 			}
 		}
 		
@@ -9622,388 +9622,6 @@ namespace Workforce.DAL.linq2sql
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblSkill")]
-	public partial class tblSkill : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-		private bool _IsCritical;
-		
-		private System.Nullable<bool> _IsNeededInFuture;
-		
-		private System.Nullable<int> _PlanningRating;
-		
-		private EntitySet<tblSkillSetSkill> _tblSkillSetSkills;
-		
-		private EntitySet<tblEmployeeSkill> _tblEmployeeSkills;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnIsCriticalChanging(bool value);
-    partial void OnIsCriticalChanged();
-    partial void OnIsNeededInFutureChanging(System.Nullable<bool> value);
-    partial void OnIsNeededInFutureChanged();
-    partial void OnPlanningRatingChanging(System.Nullable<int> value);
-    partial void OnPlanningRatingChanged();
-    #endregion
-		
-		public tblSkill()
-		{
-			this._tblSkillSetSkills = new EntitySet<tblSkillSetSkill>(new Action<tblSkillSetSkill>(this.attach_tblSkillSetSkills), new Action<tblSkillSetSkill>(this.detach_tblSkillSetSkills));
-			this._tblEmployeeSkills = new EntitySet<tblEmployeeSkill>(new Action<tblEmployeeSkill>(this.attach_tblEmployeeSkills), new Action<tblEmployeeSkill>(this.detach_tblEmployeeSkills));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCritical", DbType="Bit NOT NULL")]
-		public bool IsCritical
-		{
-			get
-			{
-				return this._IsCritical;
-			}
-			set
-			{
-				if ((this._IsCritical != value))
-				{
-					this.OnIsCriticalChanging(value);
-					this.SendPropertyChanging();
-					this._IsCritical = value;
-					this.SendPropertyChanged("IsCritical");
-					this.OnIsCriticalChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNeededInFuture", DbType="Bit")]
-		public System.Nullable<bool> IsNeededInFuture
-		{
-			get
-			{
-				return this._IsNeededInFuture;
-			}
-			set
-			{
-				if ((this._IsNeededInFuture != value))
-				{
-					this.OnIsNeededInFutureChanging(value);
-					this.SendPropertyChanging();
-					this._IsNeededInFuture = value;
-					this.SendPropertyChanged("IsNeededInFuture");
-					this.OnIsNeededInFutureChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlanningRating", DbType="Int")]
-		public System.Nullable<int> PlanningRating
-		{
-			get
-			{
-				return this._PlanningRating;
-			}
-			set
-			{
-				if ((this._PlanningRating != value))
-				{
-					this.OnPlanningRatingChanging(value);
-					this.SendPropertyChanging();
-					this._PlanningRating = value;
-					this.SendPropertyChanged("PlanningRating");
-					this.OnPlanningRatingChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkill_tblSkillSetSkill", Storage="_tblSkillSetSkills", ThisKey="Id", OtherKey="SkillId")]
-		public EntitySet<tblSkillSetSkill> tblSkillSetSkills
-		{
-			get
-			{
-				return this._tblSkillSetSkills;
-			}
-			set
-			{
-				this._tblSkillSetSkills.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkill_tblEmployeeSkill", Storage="_tblEmployeeSkills", ThisKey="Id", OtherKey="SkillId")]
-		public EntitySet<tblEmployeeSkill> tblEmployeeSkills
-		{
-			get
-			{
-				return this._tblEmployeeSkills;
-			}
-			set
-			{
-				this._tblEmployeeSkills.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_tblSkillSetSkills(tblSkillSetSkill entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblSkill = this;
-		}
-		
-		private void detach_tblSkillSetSkills(tblSkillSetSkill entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblSkill = null;
-		}
-		
-		private void attach_tblEmployeeSkills(tblEmployeeSkill entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblSkill = this;
-		}
-		
-		private void detach_tblEmployeeSkills(tblEmployeeSkill entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblSkill = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblSkillSetSkill")]
-	public partial class tblSkillSetSkill : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _SkillSetId;
-		
-		private int _SkillId;
-		
-		private EntityRef<tblSkill> _tblSkill;
-		
-		private EntityRef<tblSkillSet> _tblSkillSet;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnSkillSetIdChanging(int value);
-    partial void OnSkillSetIdChanged();
-    partial void OnSkillIdChanging(int value);
-    partial void OnSkillIdChanged();
-    #endregion
-		
-		public tblSkillSetSkill()
-		{
-			this._tblSkill = default(EntityRef<tblSkill>);
-			this._tblSkillSet = default(EntityRef<tblSkillSet>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkillSetId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int SkillSetId
-		{
-			get
-			{
-				return this._SkillSetId;
-			}
-			set
-			{
-				if ((this._SkillSetId != value))
-				{
-					if (this._tblSkillSet.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSkillSetIdChanging(value);
-					this.SendPropertyChanging();
-					this._SkillSetId = value;
-					this.SendPropertyChanged("SkillSetId");
-					this.OnSkillSetIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkillId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int SkillId
-		{
-			get
-			{
-				return this._SkillId;
-			}
-			set
-			{
-				if ((this._SkillId != value))
-				{
-					if (this._tblSkill.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSkillIdChanging(value);
-					this.SendPropertyChanging();
-					this._SkillId = value;
-					this.SendPropertyChanged("SkillId");
-					this.OnSkillIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkill_tblSkillSetSkill", Storage="_tblSkill", ThisKey="SkillId", OtherKey="Id", IsForeignKey=true)]
-		public tblSkill tblSkill
-		{
-			get
-			{
-				return this._tblSkill.Entity;
-			}
-			set
-			{
-				tblSkill previousValue = this._tblSkill.Entity;
-				if (((previousValue != value) 
-							|| (this._tblSkill.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tblSkill.Entity = null;
-						previousValue.tblSkillSetSkills.Remove(this);
-					}
-					this._tblSkill.Entity = value;
-					if ((value != null))
-					{
-						value.tblSkillSetSkills.Add(this);
-						this._SkillId = value.Id;
-					}
-					else
-					{
-						this._SkillId = default(int);
-					}
-					this.SendPropertyChanged("tblSkill");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkillSet_tblSkillSetSkill", Storage="_tblSkillSet", ThisKey="SkillSetId", OtherKey="Id", IsForeignKey=true)]
-		public tblSkillSet tblSkillSet
-		{
-			get
-			{
-				return this._tblSkillSet.Entity;
-			}
-			set
-			{
-				tblSkillSet previousValue = this._tblSkillSet.Entity;
-				if (((previousValue != value) 
-							|| (this._tblSkillSet.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tblSkillSet.Entity = null;
-						previousValue.tblSkillSetSkills.Remove(this);
-					}
-					this._tblSkillSet.Entity = value;
-					if ((value != null))
-					{
-						value.tblSkillSetSkills.Add(this);
-						this._SkillSetId = value.Id;
-					}
-					else
-					{
-						this._SkillSetId = default(int);
-					}
-					this.SendPropertyChanged("tblSkillSet");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblSkillSet")]
 	public partial class tblSkillSet : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -10309,6 +9927,388 @@ namespace Workforce.DAL.linq2sql
 						this._SkillId = default(int);
 					}
 					this.SendPropertyChanged("tblSkill");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblSkill")]
+	public partial class tblSkill : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private EntitySet<tblEmployeeSkill> _tblEmployeeSkills;
+		
+		private EntitySet<tblSkillSetSkill> _tblSkillSetSkills;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public tblSkill()
+		{
+			this._tblEmployeeSkills = new EntitySet<tblEmployeeSkill>(new Action<tblEmployeeSkill>(this.attach_tblEmployeeSkills), new Action<tblEmployeeSkill>(this.detach_tblEmployeeSkills));
+			this._tblSkillSetSkills = new EntitySet<tblSkillSetSkill>(new Action<tblSkillSetSkill>(this.attach_tblSkillSetSkills), new Action<tblSkillSetSkill>(this.detach_tblSkillSetSkills));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkill_tblEmployeeSkill", Storage="_tblEmployeeSkills", ThisKey="Id", OtherKey="SkillId")]
+		public EntitySet<tblEmployeeSkill> tblEmployeeSkills
+		{
+			get
+			{
+				return this._tblEmployeeSkills;
+			}
+			set
+			{
+				this._tblEmployeeSkills.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkill_tblSkillSetSkill", Storage="_tblSkillSetSkills", ThisKey="Id", OtherKey="SkillId")]
+		public EntitySet<tblSkillSetSkill> tblSkillSetSkills
+		{
+			get
+			{
+				return this._tblSkillSetSkills;
+			}
+			set
+			{
+				this._tblSkillSetSkills.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tblEmployeeSkills(tblEmployeeSkill entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblSkill = this;
+		}
+		
+		private void detach_tblEmployeeSkills(tblEmployeeSkill entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblSkill = null;
+		}
+		
+		private void attach_tblSkillSetSkills(tblSkillSetSkill entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblSkill = this;
+		}
+		
+		private void detach_tblSkillSetSkills(tblSkillSetSkill entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblSkill = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblSkillSetSkill")]
+	public partial class tblSkillSetSkill : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SkillSetId;
+		
+		private int _SkillId;
+		
+		private bool _IsCritical;
+		
+		private System.Nullable<bool> _IsNeededInFuture;
+		
+		private System.Nullable<int> _PlanningRating;
+		
+		private EntityRef<tblSkill> _tblSkill;
+		
+		private EntityRef<tblSkillSet> _tblSkillSet;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSkillSetIdChanging(int value);
+    partial void OnSkillSetIdChanged();
+    partial void OnSkillIdChanging(int value);
+    partial void OnSkillIdChanged();
+    partial void OnIsCriticalChanging(bool value);
+    partial void OnIsCriticalChanged();
+    partial void OnIsNeededInFutureChanging(System.Nullable<bool> value);
+    partial void OnIsNeededInFutureChanged();
+    partial void OnPlanningRatingChanging(System.Nullable<int> value);
+    partial void OnPlanningRatingChanged();
+    #endregion
+		
+		public tblSkillSetSkill()
+		{
+			this._tblSkill = default(EntityRef<tblSkill>);
+			this._tblSkillSet = default(EntityRef<tblSkillSet>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkillSetId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int SkillSetId
+		{
+			get
+			{
+				return this._SkillSetId;
+			}
+			set
+			{
+				if ((this._SkillSetId != value))
+				{
+					if (this._tblSkillSet.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSkillSetIdChanging(value);
+					this.SendPropertyChanging();
+					this._SkillSetId = value;
+					this.SendPropertyChanged("SkillSetId");
+					this.OnSkillSetIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkillId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int SkillId
+		{
+			get
+			{
+				return this._SkillId;
+			}
+			set
+			{
+				if ((this._SkillId != value))
+				{
+					if (this._tblSkill.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSkillIdChanging(value);
+					this.SendPropertyChanging();
+					this._SkillId = value;
+					this.SendPropertyChanged("SkillId");
+					this.OnSkillIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCritical", DbType="Bit NOT NULL")]
+		public bool IsCritical
+		{
+			get
+			{
+				return this._IsCritical;
+			}
+			set
+			{
+				if ((this._IsCritical != value))
+				{
+					this.OnIsCriticalChanging(value);
+					this.SendPropertyChanging();
+					this._IsCritical = value;
+					this.SendPropertyChanged("IsCritical");
+					this.OnIsCriticalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsNeededInFuture", DbType="Bit")]
+		public System.Nullable<bool> IsNeededInFuture
+		{
+			get
+			{
+				return this._IsNeededInFuture;
+			}
+			set
+			{
+				if ((this._IsNeededInFuture != value))
+				{
+					this.OnIsNeededInFutureChanging(value);
+					this.SendPropertyChanging();
+					this._IsNeededInFuture = value;
+					this.SendPropertyChanged("IsNeededInFuture");
+					this.OnIsNeededInFutureChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlanningRating", DbType="Int")]
+		public System.Nullable<int> PlanningRating
+		{
+			get
+			{
+				return this._PlanningRating;
+			}
+			set
+			{
+				if ((this._PlanningRating != value))
+				{
+					this.OnPlanningRatingChanging(value);
+					this.SendPropertyChanging();
+					this._PlanningRating = value;
+					this.SendPropertyChanged("PlanningRating");
+					this.OnPlanningRatingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkill_tblSkillSetSkill", Storage="_tblSkill", ThisKey="SkillId", OtherKey="Id", IsForeignKey=true)]
+		public tblSkill tblSkill
+		{
+			get
+			{
+				return this._tblSkill.Entity;
+			}
+			set
+			{
+				tblSkill previousValue = this._tblSkill.Entity;
+				if (((previousValue != value) 
+							|| (this._tblSkill.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tblSkill.Entity = null;
+						previousValue.tblSkillSetSkills.Remove(this);
+					}
+					this._tblSkill.Entity = value;
+					if ((value != null))
+					{
+						value.tblSkillSetSkills.Add(this);
+						this._SkillId = value.Id;
+					}
+					else
+					{
+						this._SkillId = default(int);
+					}
+					this.SendPropertyChanged("tblSkill");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblSkillSet_tblSkillSetSkill", Storage="_tblSkillSet", ThisKey="SkillSetId", OtherKey="Id", IsForeignKey=true)]
+		public tblSkillSet tblSkillSet
+		{
+			get
+			{
+				return this._tblSkillSet.Entity;
+			}
+			set
+			{
+				tblSkillSet previousValue = this._tblSkillSet.Entity;
+				if (((previousValue != value) 
+							|| (this._tblSkillSet.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tblSkillSet.Entity = null;
+						previousValue.tblSkillSetSkills.Remove(this);
+					}
+					this._tblSkillSet.Entity = value;
+					if ((value != null))
+					{
+						value.tblSkillSetSkills.Add(this);
+						this._SkillSetId = value.Id;
+					}
+					else
+					{
+						this._SkillSetId = default(int);
+					}
+					this.SendPropertyChanged("tblSkillSet");
 				}
 			}
 		}

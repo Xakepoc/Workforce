@@ -185,7 +185,7 @@
             $('#selector-skillSet ul').prepend(li);
         });
         
-        var GetSkillIndex = function(arr, id) { return _.indexOf(arr, _.find(arr, function(s) { return s.Id == id; })); };
+        var GetSkillIndex = function(arr, id) { return _.indexOf(arr, _.find(arr, function(s) { return s.SkillId == id; })); };
         var GetSkillTitle = function(arr, id) { return arr[id].Name; };
         
         function Draw() {
@@ -206,7 +206,7 @@
             var wBottom = containerBottom.width();
             
             var employees = [];
-            var skillIndexes = _.map(skills, function(s) { return s.Id; });
+            var skillIndexes = _.map(skills, function(s) { return s.SkillId; });
             _.each(src, function(e) {
                 if (!_.contains(skillIndexes, e.SkillId)) return;
                 e.SkillIndex = GetSkillIndex(skills, e.SkillId);

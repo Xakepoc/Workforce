@@ -8,7 +8,6 @@ namespace Workforce.DAL
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool IsCritical { get; set; }
 
         private List<EmployeeSkill> EmployeeSkills { get; set; }
 
@@ -24,7 +23,6 @@ namespace Workforce.DAL
                        {
                            Id = item.Id,
                            Name = item.Name,
-                           IsCritical = item.IsCritical,
                            EmployeeSkills = dao.GetEmployeeSkills(item.Id)
                        };
         }
@@ -35,7 +33,6 @@ namespace Workforce.DAL
             {
                 Id = item.Id,
                 Name = item.Name,
-                IsCritical = item.IsCritical,
                 EmployeeSkills = employeeSkills.Where(arg => arg.SkillId == item.Id).Select(EmployeeSkill.Load).ToList()
             };
         }

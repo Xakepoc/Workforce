@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 24, 24.625" name="DataModel">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 24, 24.75" name="DataModel">
   <DataContextMoniker Name="/DataModelDataContext" />
   <nestedChildShapes>
     <classShape Id="78be9c9c-f8bc-4882-9fe7-9abb316992b1" absoluteBounds="0.75, 0.75, 2, 1.3862939453125">
@@ -260,38 +260,12 @@
         <elementListCompartment Id="4d83737f-16e2-4071-afcf-23db91ba544c" absoluteBounds="21.765, 17.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="905de9dc-24ed-4df1-b809-518cc06bbd27" absoluteBounds="15.5, 22.625, 2, 1.7708968098958309">
-      <DataClassMoniker Name="/DataModelDataContext/tblSkill" />
-      <nestedChildShapes>
-        <elementListCompartment Id="078b858f-b499-4ba9-ab9a-1ae77ff259f9" absoluteBounds="15.515, 23.085, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="3d61b298-0953-43ce-b807-63894afdef2d" absoluteBounds="18.5, 23, 2, 1.1939925130208309">
-      <DataClassMoniker Name="/DataModelDataContext/tblSkillSetSkill" />
-      <nestedChildShapes>
-        <elementListCompartment Id="e81949ca-11ac-451d-a0f0-cd15441810c2" absoluteBounds="18.515, 23.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="acf718a2-0703-440d-8368-cb4414bdbefb" absoluteBounds="21.375, 23, 2, 1.1939925130208309">
       <DataClassMoniker Name="/DataModelDataContext/tblSkillSet" />
       <nestedChildShapes>
         <elementListCompartment Id="31e2922c-359b-4679-8fe1-7792b427d71e" absoluteBounds="21.39, 23.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(17.5 : 23.5969962565104); (18.5 : 23.5969962565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/DataModelDataContext/tblSkill/tblSkill_tblSkillSetSkill" />
-      <nodes>
-        <classShapeMoniker Id="905de9dc-24ed-4df1-b809-518cc06bbd27" />
-        <classShapeMoniker Id="3d61b298-0953-43ce-b807-63894afdef2d" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(21.375 : 23.5969962565104); (20.5 : 23.5969962565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/DataModelDataContext/tblSkillSet/tblSkillSet_tblSkillSetSkill" />
-      <nodes>
-        <classShapeMoniker Id="acf718a2-0703-440d-8368-cb4414bdbefb" />
-        <classShapeMoniker Id="3d61b298-0953-43ce-b807-63894afdef2d" />
-      </nodes>
-    </associationConnector>
     <classShape Id="627f34df-e922-437f-9e45-d3509cb22c79" absoluteBounds="11.875, 22.625, 2, 1.5785953776041666">
       <DataClassMoniker Name="/DataModelDataContext/tblEmployeeSkill" />
       <nestedChildShapes>
@@ -305,11 +279,37 @@
         <classShapeMoniker Id="627f34df-e922-437f-9e45-d3509cb22c79" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(15.5 : 23.4142976888021); (13.875 : 23.4142976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <classShape Id="1fd1b27c-5962-4dcd-948a-a01bacac8fcb" absoluteBounds="14.875, 22.75, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/DataModelDataContext/tblSkill" />
+      <nestedChildShapes>
+        <elementListCompartment Id="31a54df3-868a-492b-a10a-86f8f60e9eec" absoluteBounds="14.89, 23.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(14.875 : 23.3469962565104); (13.875 : 23.3469962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DataModelDataContext/tblSkill/tblSkill_tblEmployeeSkill" />
       <nodes>
-        <classShapeMoniker Id="905de9dc-24ed-4df1-b809-518cc06bbd27" />
+        <classShapeMoniker Id="1fd1b27c-5962-4dcd-948a-a01bacac8fcb" />
         <classShapeMoniker Id="627f34df-e922-437f-9e45-d3509cb22c79" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="4aa2e76e-2226-4a2a-bd8a-6a2d5a8552b8" absoluteBounds="18.125, 22.75, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/DataModelDataContext/tblSkillSetSkill" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ab358d31-6f4a-44f8-aab2-590e875831ae" absoluteBounds="18.14, 23.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(16.875 : 23.3469962565104); (18.125 : 23.3469962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataModelDataContext/tblSkill/tblSkill_tblSkillSetSkill" />
+      <nodes>
+        <classShapeMoniker Id="1fd1b27c-5962-4dcd-948a-a01bacac8fcb" />
+        <classShapeMoniker Id="4aa2e76e-2226-4a2a-bd8a-6a2d5a8552b8" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(21.375 : 23.5969962565104); (20.125 : 23.5969962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataModelDataContext/tblSkillSet/tblSkillSet_tblSkillSetSkill" />
+      <nodes>
+        <classShapeMoniker Id="acf718a2-0703-440d-8368-cb4414bdbefb" />
+        <classShapeMoniker Id="4aa2e76e-2226-4a2a-bd8a-6a2d5a8552b8" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

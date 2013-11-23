@@ -12,12 +12,10 @@ CREATE TABLE [dbo].[tblEmployeeSkill](
 
 GO
 
+
 CREATE TABLE [dbo].[tblSkill](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](250) NOT NULL,
-	[IsCritical] [bit] NOT NULL,
-	[IsNeededInFuture] [bit] NULL,
-	[PlanningRating] [int] NULL,
  CONSTRAINT [PK_tblSkill] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -40,6 +38,9 @@ GO
 CREATE TABLE [dbo].[tblSkillSetSkill](
 	[SkillSetId] [int] NOT NULL,
 	[SkillId] [int] NOT NULL,
+	[IsCritical] [bit] NOT NULL,
+	[IsNeededInFuture] [bit] NULL,
+	[PlanningRating] [int] NULL,
  CONSTRAINT [PK_tblSkillSetSkill] PRIMARY KEY CLUSTERED 
 (
 	[SkillSetId] ASC,

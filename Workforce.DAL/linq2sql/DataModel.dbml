@@ -509,25 +509,6 @@
       <Column Name="Name" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.tblSkill" Member="tblSkills">
-    <Type Name="tblSkill">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Column Name="IsCritical" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsNeededInFuture" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="PlanningRating" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="tblSkill_tblSkillSetSkill" Member="tblSkillSetSkills" ThisKey="Id" OtherKey="SkillId" Type="tblSkillSetSkill" />
-      <Association Name="tblSkill_tblEmployeeSkill" Member="tblEmployeeSkills" ThisKey="Id" OtherKey="SkillId" Type="tblEmployeeSkill" />
-    </Type>
-  </Table>
-  <Table Name="dbo.tblSkillSetSkill" Member="tblSkillSetSkills">
-    <Type Name="tblSkillSetSkill">
-      <Column Name="SkillSetId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="SkillId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="tblSkill_tblSkillSetSkill" Member="tblSkill" ThisKey="SkillId" OtherKey="Id" Type="tblSkill" IsForeignKey="true" />
-      <Association Name="tblSkillSet_tblSkillSetSkill" Member="tblSkillSet" ThisKey="SkillSetId" OtherKey="Id" Type="tblSkillSet" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.tblSkillSet" Member="tblSkillSets">
     <Type Name="tblSkillSet">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -543,6 +524,25 @@
       <Column Name="DevelopmentOpportunity" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Association Name="tblEmployee_tblEmployeeSkill" Member="tblEmployee" ThisKey="EmployeeId" OtherKey="ID" Type="tblEmployee" IsForeignKey="true" />
       <Association Name="tblSkill_tblEmployeeSkill" Member="tblSkill" ThisKey="SkillId" OtherKey="Id" Type="tblSkill" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSkill" Member="tblSkills">
+    <Type Name="tblSkill">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="tblSkill_tblEmployeeSkill" Member="tblEmployeeSkills" ThisKey="Id" OtherKey="SkillId" Type="tblEmployeeSkill" />
+      <Association Name="tblSkill_tblSkillSetSkill" Member="tblSkillSetSkills" ThisKey="Id" OtherKey="SkillId" Type="tblSkillSetSkill" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblSkillSetSkill" Member="tblSkillSetSkills">
+    <Type Name="tblSkillSetSkill">
+      <Column Name="SkillSetId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SkillId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsCritical" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsNeededInFuture" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PlanningRating" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblSkill_tblSkillSetSkill" Member="tblSkill" ThisKey="SkillId" OtherKey="Id" Type="tblSkill" IsForeignKey="true" />
+      <Association Name="tblSkillSet_tblSkillSetSkill" Member="tblSkillSet" ThisKey="SkillSetId" OtherKey="Id" Type="tblSkillSet" IsForeignKey="true" />
     </Type>
   </Table>
   <Function Name="dbo.spGetEmployees" Method="spGetEmployees">

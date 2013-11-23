@@ -7,7 +7,7 @@ namespace Workforce.DAL
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Skill> Skills { get { return new LookupDao().GetSkills(Id); } }
+        public List<SkillSetSkill> Skills { get { return new LookupDao().GetSkills(Id); } }
 
         public static SkillSet Load(tblSkillSet item)
         {
