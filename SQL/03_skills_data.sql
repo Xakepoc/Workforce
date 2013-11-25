@@ -88,6 +88,7 @@ BEGIN
 		 emp.ID
 		,s.Id AS SkillId
 		,s.Name AS Skill
+		,DATEDIFF(YEAR, emp.BirthDate, GETDATE()) AS Age
 		,sss.IsCritical
 		,sss.IsNeededInFuture
 		,sss.PlanningRating

@@ -10567,6 +10567,8 @@ namespace Workforce.DAL.linq2sql
 		
 		private string _Skill;
 		
+		private System.Nullable<int> _Age;
+		
 		private bool _IsCritical;
 		
 		private System.Nullable<bool> _IsNeededInFuture;
@@ -10641,6 +10643,22 @@ namespace Workforce.DAL.linq2sql
 				if ((this._Skill != value))
 				{
 					this._Skill = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Age", DbType="Int")]
+		public System.Nullable<int> Age
+		{
+			get
+			{
+				return this._Age;
+			}
+			set
+			{
+				if ((this._Age != value))
+				{
+					this._Age = value;
 				}
 			}
 		}

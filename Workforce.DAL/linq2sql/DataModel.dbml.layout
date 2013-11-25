@@ -285,7 +285,7 @@
         <elementListCompartment Id="31a54df3-868a-492b-a10a-86f8f60e9eec" absoluteBounds="14.89, 23.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(14.875 : 23.3469962565104); (13.875 : 23.3469962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(14.875 : 23.3469962565104); (13.875 : 23.3469962565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataModelDataContext/tblSkill/tblSkill_tblEmployeeSkill" />
       <nodes>
         <classShapeMoniker Id="1fd1b27c-5962-4dcd-948a-a01bacac8fcb" />
@@ -298,14 +298,14 @@
         <elementListCompartment Id="ab358d31-6f4a-44f8-aab2-590e875831ae" absoluteBounds="18.14, 23.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(16.875 : 23.3469962565104); (18.125 : 23.3469962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(16.875 : 23.3469962565104); (18.125 : 23.3469962565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataModelDataContext/tblSkill/tblSkill_tblSkillSetSkill" />
       <nodes>
         <classShapeMoniker Id="1fd1b27c-5962-4dcd-948a-a01bacac8fcb" />
         <classShapeMoniker Id="4aa2e76e-2226-4a2a-bd8a-6a2d5a8552b8" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(21.375 : 23.5969962565104); (20.125 : 23.5969962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(21.375 : 23.5969962565104); (20.125 : 23.5969962565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataModelDataContext/tblSkillSet/tblSkillSet_tblSkillSetSkill" />
       <nodes>
         <classShapeMoniker Id="acf718a2-0703-440d-8368-cb4414bdbefb" />

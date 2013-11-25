@@ -23,6 +23,7 @@ namespace Workforce.Models
         public string JobFamily { get; set; }
         public string JobFunction { get; set; }
         public string JobLevel { get; set; }
+        public int Age { get; set; }
         public string Gender { get; set; }
     }
 
@@ -54,6 +55,7 @@ namespace Workforce.Models
                                        JobFamily = emp.FamName,
                                        JobFunction = emp.FuncName,
                                        JobLevel = emp.LevelName,
+                                       Age = emp.Age ?? 0,
                                        Gender = emp.Gender
                                    })
                 .ToList();
