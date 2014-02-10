@@ -39,8 +39,8 @@ svg {
     margin-left: 15px;
 }
 .header-selector {
-    color: #428bca;
-    font-size: 14px;
+    color: #d62728;
+    font-size: 24px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -48,10 +48,10 @@ svg {
     margin-left: 5px;
 }
 .header-selector-link:hover {
-    border-bottom: dashed 1px #428bca;
+    border-bottom: dashed 1px #d62728;
 }
 .header-selector-link.active {
-    border-bottom: dashed 1px #428bca;
+    border-bottom: dashed 1px #d62728;
     cursor: default;
 }
 table#topEmployees th, table#topEmployees td {
