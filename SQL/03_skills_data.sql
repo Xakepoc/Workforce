@@ -62,7 +62,7 @@ BEGIN
 		t.SkillId,
 		t.Rating,
 		(CASE
-			WHEN t.Rating >=3 
+			WHEN t.Rating >=0
 			THEN (CASE WHEN RAND(CAST(NEWID() AS binary(8))) < 0.5 THEN 0 ELSE 1 END)
 			ELSE 0
 		 END) AS DevelopmentOpportunity

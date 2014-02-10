@@ -14,8 +14,8 @@
         <div id="selector-skillSet" class="selector col-xs-12">
             <h4>Select skill set:</h4>
             <ul class="nav nav-pills">
-                <li><a class="selector-link" href="">Top</a></li>
-                <li><a class="selector-link" href="">Gaps</a></li>
+                @*<li><a class="selector-link" href="">Top</a></li>
+                <li><a class="selector-link" href="">Gaps</a></li>*@
                 <li><a id="selectorReset" href="javascript:dc.filterAll();dc.renderAll();">Reset All Filters</a></li>
             </ul>
             <div class="clear"></div>
@@ -25,7 +25,7 @@
         </div>
         <div class="col-xs-12 col-lg-8 data">
             <div id="chart-fulfillment" class="chartMain" style="width:100%">
-                <strong>Skill fulfillment</strong>
+                <strong>Planning for Future New Commercial Skills</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetFulfillment" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
@@ -70,13 +70,13 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
+                @*<div class="col-xs-12 col-sm-6 col-lg-12 chart-right">
                     <div id="chart-function" class="chartRight">
                         <strong>Job Function</strong>
                         <a id="resetFunction" class="reset" href="" style="display: none;">reset</a>
                         <div class="clearfix"></div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
         <div class="row"></div>
@@ -155,6 +155,7 @@
         var jobFamilies = @Html.Raw(Json.Encode(Model.JobFamilies));
         var jobFunctions = @Html.Raw(Json.Encode(Model.JobFunctions));
         var skillSets = @Html.Raw(Json.Encode(Model.SkillSets));
+        skillSets = _.filter(skillSets, function(set) { return _.any(set.Skills, function(s) { return s.IsFuture; }); }); // removes sets without future skills
         var sets = _.map(skillSets, function(set) { return { Id: set.Id, Name: set.Name }; }).reverse();
         var skillsAll = _.flatten(_.map(skillSets, function(ss) {
             _.each(ss.Skills, function(s) {
@@ -263,7 +264,7 @@
             //var functionGroup = group(functionDimension, function(v) { if (_.contains(jobFunctions, v)) return v; });
             var functionGroup = group(functionDimension);
             var levelGroup = group(levelDimension);
-
+            
             // Processing main charts
             var scaleSkills = d3.scale.linear().domain([0, skills.length]);
             var scalePercent = d3.scale.linear().domain([0, 100]);
@@ -271,7 +272,7 @@
             
             // calculate translates for bar charts
             var marginRight = 50, marginLeft = 33;
-            var k = 3; // number of bars
+            var k = 1; // number of bars
             var w = (wMain - marginLeft - marginRight) / skills.length; // column width
             var colRightMargin = w / 5, colLeftMargin = w / 10; // left and right column margins
             var wEff = w - colLeftMargin - colRightMargin; // effective column width
@@ -307,8 +308,8 @@
                 .legend(dc.legend().x(55).y(30).itemHeight(13).gap(5))
                 .renderlet(function (chart) {
                     chart.selectAll("g.sub._0").attr("transform", "translate(" + t1 + ", 0)");
-                    chart.selectAll("g.sub._1").attr("transform", "translate(" + t2 + ", 0)");
-                    chart.selectAll("g.sub._2").attr("transform", "translate(" + t3 + ", 0)");
+                    //chart.selectAll("g.sub._1").attr("transform", "translate(" + t2 + ", 0)");
+                    //chart.selectAll("g.sub._2").attr("transform", "translate(" + t3 + ", 0)");
                     chart.selectAll("g.stack rect").attr("width", wBarEff);
                     chart.selectAll("g.dc-legend-item").filter(function(d) { return d.name == "Gap" || d.name == "Oversupply"; }).remove();
                     chart.selectAll("g.dc-legend-item").filter(function(d) { return d.name != "Gap" && d.name != "Oversupply"; })
@@ -333,42 +334,42 @@
                         .stack(skillGroup(), "Gap", function(d){ return GetDifference(d.key, d.value.Rating / d.value.Total, true);})
                         .stack(skillGroup(), "Oversupply", function(d){ return GetDifference(d.key, d.value.Rating / d.value.Total, false);})
                         .colors(["#2ca02c", "#C0E2C0", "#1A601A"]),
-                    dc.barChart(chartFulfillment).group(skillGroup(), "Male")
-                        .title(function(d) {
-                            var rate = d.data.value.MaleRating / d.data.value.Male;
-                            var gap = GetDifference(d.data.key, rate, true);
-                            var over = GetDifference(d.data.key, rate, false);
-                            var diffTitle = gap > 0 ? "\n  Gap: " + gap.toPrecision(3) + "%" : (over > 0 ? "\n  Oversupply: " + over.toPrecision(3) + "%": "");
-                            return "Male \n  Fulfillment: " + (rate / 5 * 100).toPrecision(3) + '%' +
-                                "\n  Plan: " + GetSkillPlanningRating(skills, d.data.key) * 20 + '%' +
-                                diffTitle;
-                        })
-                        .valueAccessor(function(d) {
-                            var plan = GetSkillPlanningRating(skills, d.key);
-                            var rate = d.value.MaleRating / d.value.Male;
-                            return (plan < rate ? plan : rate) / 5 * 100;
-                        })
-                        .stack(skillGroup(), "Gap", function(d){ return GetDifference(d.key, d.value.MaleRating / d.value.Male, true);})
-                        .stack(skillGroup(), "Oversupply", function(d){ return GetDifference(d.key, d.value.MaleRating / d.value.Male, false);})
-                        .colors(["#1f77b4", "#A5C9E1", "#13476C"]),
-                    dc.barChart(chartFulfillment).group(skillGroup(), "Female")
-                        .title(function(d) { 
-                            var rate = d.data.value.FemaleRating / d.data.value.Female;
-                            var gap = GetDifference(d.data.key, rate, true);
-                            var over = GetDifference(d.data.key, rate, false);
-                            var diffTitle = gap > 0 ? "\n  Gap: " + gap.toPrecision(3) + "%" : (over > 0 ? "\n  Oversupply: " + over.toPrecision(3) + "%": "");
-                            return "Female \n  Fulfillment: " + (rate / 5 * 100).toPrecision(3) + '%' +
-                                "\n  Plan: " + GetSkillPlanningRating(skills, d.data.key) * 20 + '%' +
-                                diffTitle;
-                        })
-                        .valueAccessor(function(d) {
-                            var plan = GetSkillPlanningRating(skills, d.key);
-                            var rate = d.value.FemaleRating / d.value.Female;
-                            return (plan < rate ? plan : rate) / 5 * 100;
-                        })
-                        .stack(skillGroup(), "Gap", function(d){ return GetDifference(d.key, d.value.FemaleRating / d.value.Female, true);})
-                        .stack(skillGroup(), "Oversupply", function(d){ return GetDifference(d.key, d.value.FemaleRating / d.value.Female, false);})
-                        .colors(["#ff7f0e", "#FFBF86", "#994C08"])
+                    //dc.barChart(chartFulfillment).group(skillGroup(), "Male")
+                    //    .title(function(d) {
+                    //        var rate = d.data.value.MaleRating / d.data.value.Male;
+                    //        var gap = GetDifference(d.data.key, rate, true);
+                    //        var over = GetDifference(d.data.key, rate, false);
+                    //        var diffTitle = gap > 0 ? "\n  Gap: " + gap.toPrecision(3) + "%" : (over > 0 ? "\n  Oversupply: " + over.toPrecision(3) + "%": "");
+                    //        return "Male \n  Fulfillment: " + (rate / 5 * 100).toPrecision(3) + '%' +
+                    //            "\n  Plan: " + GetSkillPlanningRating(skills, d.data.key) * 20 + '%' +
+                    //            diffTitle;
+                    //    })
+                    //    .valueAccessor(function(d) {
+                    //        var plan = GetSkillPlanningRating(skills, d.key);
+                    //        var rate = d.value.MaleRating / d.value.Male;
+                    //        return (plan < rate ? plan : rate) / 5 * 100;
+                    //    })
+                    //    .stack(skillGroup(), "Gap", function(d){ return GetDifference(d.key, d.value.MaleRating / d.value.Male, true);})
+                    //    .stack(skillGroup(), "Oversupply", function(d){ return GetDifference(d.key, d.value.MaleRating / d.value.Male, false);})
+                    //    .colors(["#1f77b4", "#A5C9E1", "#13476C"]),
+                    //dc.barChart(chartFulfillment).group(skillGroup(), "Female")
+                    //    .title(function(d) { 
+                    //        var rate = d.data.value.FemaleRating / d.data.value.Female;
+                    //        var gap = GetDifference(d.data.key, rate, true);
+                    //        var over = GetDifference(d.data.key, rate, false);
+                    //        var diffTitle = gap > 0 ? "\n  Gap: " + gap.toPrecision(3) + "%" : (over > 0 ? "\n  Oversupply: " + over.toPrecision(3) + "%": "");
+                    //        return "Female \n  Fulfillment: " + (rate / 5 * 100).toPrecision(3) + '%' +
+                    //            "\n  Plan: " + GetSkillPlanningRating(skills, d.data.key) * 20 + '%' +
+                    //            diffTitle;
+                    //    })
+                    //    .valueAccessor(function(d) {
+                    //        var plan = GetSkillPlanningRating(skills, d.key);
+                    //        var rate = d.value.FemaleRating / d.value.Female;
+                    //        return (plan < rate ? plan : rate) / 5 * 100;
+                    //    })
+                    //    .stack(skillGroup(), "Gap", function(d){ return GetDifference(d.key, d.value.FemaleRating / d.value.Female, true);})
+                    //    .stack(skillGroup(), "Oversupply", function(d){ return GetDifference(d.key, d.value.FemaleRating / d.value.Female, false);})
+                    //    .colors(["#ff7f0e", "#FFBF86", "#994C08"])
                 ])
                 .on('postRender', function(chart) {
                     var x = wEff / 1.5;
@@ -386,6 +387,7 @@
             var filterEmployees = function(chart, filter) {
                 if (chart && !filter) return; // TODO: need workaround for Reset All Filters
                 var topEmployees = _.chain(employeesFiltered)
+                    .filter(function(emp) { return emp.DevelopmentOpportunity; })
                     .groupBy(function(emp) { return emp.Id; })
                     .map(function(emps, id) {
                         return {
@@ -405,6 +407,7 @@
                             Gender: emps[0].Gender ? "M" : "F"
                         };
                     })
+                    .filter(function(emp) { return emp.Score >= 40 && emp.Score <= 60;})
                     .sortBy(function(emp) { return emp.Score; }) // TODO: implement sorting by gap
                     .last(15)
                     .value()
@@ -453,7 +456,7 @@
             var locationChart = dc.pieChart("#chart-location");
             var groupChart = dc.pieChart("#chart-group");
             var familyChart = dc.rowChart("#chart-family");
-            var functionChart = dc.rowChart("#chart-function");
+            //var functionChart = dc.rowChart("#chart-function");
             var levelChart = dc.pieChart("#chart-level");
 
             initRowChart(skillChart, skillNameDimension, skillNameGroup).height(skills.length*40).labelOffsetY(10 + skills.length);
@@ -461,7 +464,7 @@
             initPieChart(locationChart, locationDimension, locationGroup);
             initPieChart(groupChart, groupDimension, jobGroupGroup);
             initRowChart(familyChart, familyDimension, familyGroup).height(familyGroup.all().length*20).labelOffsetY(11);
-            initRowChart(functionChart, functionDimension, functionGroup).height(functionGroup.all().length*20).labelOffsetY(11);
+            //initRowChart(functionChart, functionDimension, functionGroup).height(functionGroup.all().length*20).labelOffsetY(11);
             initPieChart(levelChart, levelDimension, levelGroup);
             
             var fnReset = function(chart) {
@@ -474,7 +477,7 @@
             $('#resetLocation').on('click', fnReset(locationChart));
             $('#resetGroup').on('click', fnReset(groupChart));
             $('#resetFamily').on('click', fnReset(familyChart));
-            $('#resetFunction').on('click', fnReset(functionChart));
+            //$('#resetFunction').on('click', fnReset(functionChart));
             $('#resetLevel').on('click', fnReset(levelChart));
 
             dc.renderAll();
