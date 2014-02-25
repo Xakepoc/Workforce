@@ -24,19 +24,19 @@
             <div class="clear"></div>
         </div>
         <div class="col-xs-12 col-lg-8">
-            @*<div id="chart-fulfillment" class="chartMain" style="width:100%">
+            <div id="chart-fulfillment" class="chartMain" style="width:100%">
                 <strong>Skill fulfillment</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetFulfillment" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
-            </div>*@
-            <br />
+            </div>
+            @*<br />
             <div id="chart-fulfillment-totals" class="chartMain" style="width:100%">
                 <strong>Skill fulfillment Totals</strong>
                 <span class="reset" style="display: none;">range: <span class="filter"></span></span>
                 <a id="resetFulfillmentTotals" class="reset" href="" style="display: none;">reset</a>
                 <div class="clearfix"></div>
-            </div>
+            </div>*@
             <div style="clear:both;"></div>
             <br />
             <strong>Employees ranked by best achievement</strong>
@@ -291,15 +291,15 @@
             
             // calculate translates for bar charts
             var marginRight = 50, marginLeft = 33;
-            var k = 3; // number of bars
+            var k = 1; // number of bars
             var w = (wMain - marginLeft - marginRight) / skills.length; // column width
-            var colRightMargin = w / 5, colLeftMargin = w / 10; // left and right column margins
+            var colRightMargin = w / 5, colLeftMargin = w / 5; // left and right column margins
             var wEff = w - colLeftMargin - colRightMargin; // effective column width
             var barMargin = (wEff/k)*(0.25), translate = wEff / k; // margin between bars and translate
             var wBarEff = wEff / k - barMargin; // effective bar width
             var t1 = colLeftMargin + translate * 0, t2 = colLeftMargin + translate * 1, t3 = colLeftMargin + translate*2;
             
-            /*
+            
             var chartFulfillment = dc.compositeChart("#chart-fulfillment");
             chartFulfillment
                 .width(wMain)
@@ -321,20 +321,20 @@
                 .legend(dc.legend().x(55).y(30).itemHeight(13).gap(5))
                 .renderlet(function (chart) {
                     chart.selectAll("g.sub._0").attr("transform", "translate(" + t1 + ", 0)");
-                    chart.selectAll("g.sub._1").attr("transform", "translate(" + t2 + ", 0)");
-                    chart.selectAll("g.sub._2").attr("transform", "translate(" + t3 + ", 0)");
+                    //chart.selectAll("g.sub._1").attr("transform", "translate(" + t2 + ", 0)");
+                    //chart.selectAll("g.sub._2").attr("transform", "translate(" + t3 + ", 0)");
                     chart.selectAll("g.stack rect").attr("width", wBarEff);
                 })
                 .compose([
                     dc.barChart(chartFulfillment).group(skillGroup(), "Total")
                         .title(function(d) { return "Total \n  Fulfillment: " + (d.data.value.Rating / (5 * d.data.value.Total) * 100).toPrecision(3) + '%'; }).colors(['#2ca02c'])
                         .valueAccessor(function(d) { return d.value.Rating / (5 * d.value.Total) * 100; }),
-                    dc.barChart(chartFulfillment).group(skillGroup(), "Male")
-                        .title(function(d) { return "Male \n  Fulfillment: " + (d.data.value.MaleRating / (5 * d.data.value.Male) * 100).toPrecision(3) + '%'; }).colors(['#1f77b4'])
-                        .valueAccessor(function(d) { return d.value.MaleRating / (5 * d.value.Male) * 100; }),
-                    dc.barChart(chartFulfillment).group(skillGroup(), "Female")
-                        .title(function(d) { return "Female \n  Fulfillment: " + (d.data.value.FemaleRating / (5 * d.data.value.Female) * 100).toPrecision(3) + '%'; }).colors(['#ff7f0e'])
-                        .valueAccessor(function(d) { return d.value.FemaleRating / (5 * d.value.Female) * 100; })
+                    //dc.barChart(chartFulfillment).group(skillGroup(), "Male")
+                    //    .title(function(d) { return "Male \n  Fulfillment: " + (d.data.value.MaleRating / (5 * d.data.value.Male) * 100).toPrecision(3) + '%'; }).colors(['#1f77b4'])
+                    //    .valueAccessor(function(d) { return d.value.MaleRating / (5 * d.value.Male) * 100; }),
+                    //dc.barChart(chartFulfillment).group(skillGroup(), "Female")
+                    //    .title(function(d) { return "Female \n  Fulfillment: " + (d.data.value.FemaleRating / (5 * d.data.value.Female) * 100).toPrecision(3) + '%'; }).colors(['#ff7f0e'])
+                    //    .valueAccessor(function(d) { return d.value.FemaleRating / (5 * d.value.Female) * 100; })
                 ])
                 .on('postRender', function(chart) {
                     var x = wEff / 1.5;
@@ -348,8 +348,8 @@
                 return GetSkillTitle(skills, v);
             });
             chartFulfillment.yAxis().tickFormat(function(v) {return v + "%";});
-            */
-
+            
+            /*
             var chartFulfillmentTotals = dc.barChart("#chart-fulfillment-totals");
             chartFulfillmentTotals
                 .width(wMain)
@@ -390,7 +390,7 @@
             chartFulfillmentTotals.xAxis().tickValues(ticks).tickFormat(function(v) {
                 if (v < 0 || v >= skills.length) return '';
                 return GetSkillTitle(skills, v);
-            });
+            });*/
             
             var filterEmployees = function(chart, filter) {
                 if (chart && !filter) return; // TODO: need workaround for Reset All Filters
@@ -476,7 +476,7 @@
                 return function() { chart.filterAll(); dc.redrawAll(); return false; };
             };
 
-            //$('#resetFulfillment').on('click', fnReset(chartFulfillment));
+            $('#resetFulfillment').on('click', fnReset(chartFulfillment));
             $('#resetSkill').on('click', fnReset(skillChart));
             $('#resetOccupation').on('click', fnReset(occupationChart));
             $('#resetLocation').on('click', fnReset(locationChart));
